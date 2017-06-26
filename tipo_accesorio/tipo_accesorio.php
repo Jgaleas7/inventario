@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <title>Accesorio</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
-       <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+       <script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
        <script type="text/javascript" src="../js/toastr.js"></script>
 </head>
-<body>
-<a  onclick="goBack()" class="btn btn-info btn-lg">   <span class="glyphicon glyphicon-eye-open"></span>
-Ver Listado </a>
-<div class="">  
+<body class="login-page">
+
    
    <div id="cuerpo" class="col-md-8" >
-       <header class="header">
-       <center><strong><h2>Añadir Tipo de Accesorio</h2></strong></center>
-       </header>
-      
        
            <div class="col-md-8 col-md-offset-3" >
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h2 class="box-title"></h2>
+                  <h2 class="box-title">Añadir Tipo de Accesorio</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
@@ -38,8 +33,10 @@ Ver Listado </a>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                      <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg">   <span class="fa fa-list"></span>
+                          Ver Listado </a>
+
                   </div>
                 </form>
                 
@@ -69,9 +66,21 @@ Ver Listado </a>
                 },
                 success: function(data)
                 {
-					alert(data);
-                  toastr.success('Exito','se ha Guardado correctamnete');
-                    limpiarcampos();
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
+
+                        if (item=="bien"){
+
+                            toastr.success('Exito','se ha Guardado correctamnete');
+                            limpiarcampos();
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Error Intente de nuevo');
+
+                        }
+
+                    });
+
                 },
                 error: function(xhr, ajaxOptions, thrownError)
                 {

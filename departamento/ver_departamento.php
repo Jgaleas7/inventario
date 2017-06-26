@@ -9,15 +9,7 @@
      <link rel="stylesheet" href="../css/toastr.css" >
 
     <!-- Optional theme -->
-   <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
-    <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
+   <script src="../plugins/jQuery/jquery-3.1.1.js" type="text/javascript"></script>
 
 </head>
 <body>
@@ -26,8 +18,8 @@
 </nav>
 
 <div class="container-fluid">
-   <h2>MARCAS
-                        <a href="tipos_cliente.php" class="btn btn-success btn-md">
+   <h2>Departamentos
+                        <a href="departamento.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
                         </a>
                     </h2>
@@ -38,14 +30,9 @@
                     
                     <tr>
                         <th data-field="id">id</th>
-                        <th data-field="area">MARCA</th>
-                        <th data-field="descripcion">Descripcion</th>
+                        <th data-field="descripcion">Departamento</th>
                         <th data-field="descripcion">Editar</th>
                         <th data-field="descripcion">Eliminar</th>
-                       
-                        
-                        
-                       
                     </tr>
                 </thead> 
                 <tbody>
@@ -53,8 +40,7 @@
                  include_once '../config/conexion2.php';
                
               $mbd=DB::connect();DB::disconnect();
-                // VERDADERA
-             $proof=$mbd->query("select * from marca");
+             $proof=$mbd->query("select * from departamento");
                                    
            		
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
@@ -62,17 +48,14 @@
                     
                     <tr>
                     
-                        <td>".$row["id_marca"]."</td>
-                        <td>".$row["nombre_marca"]."</td>
-                        <td>".$row["descri"]."</td>
-                       
-                        
+                        <td>".$row["id_departamento"]."</td>
+                        <td>".$row["nombre_dep"]."</td>
                         
                         <td>
-                             <a href=\"editar.php?id=".$row["id_marca"]."\" class=\"btn btn-info btn-sm\">
+                             <a href=\"editar.php?id=".$row["id_departamento"]."\" class=\"btn btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
                               </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_marca"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
+							     <a id=\"eliminar\" value=\"".$row["id_departamento"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
                                </td>
                             
                     </tr>";
@@ -84,6 +67,11 @@
     </div>
     </div>
 </body>
+<script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
+<script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
            <script>
     $(document).ready(function(){
         

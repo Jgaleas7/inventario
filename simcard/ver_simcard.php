@@ -6,18 +6,13 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" >
      <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css" >
 
     <!-- Optional theme -->
    <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
-    <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
+
 
 </head>
 <body>
@@ -30,6 +25,9 @@
                         <a href="simcard.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
                         </a>
+       <a href="ver_advance.php" class="btn btn-flat btn-primary btn-md">
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
                     </h2>
     <div class="row">
         <div class="col-lg-11"> <!-- Note that "m8 l9" was added -->
@@ -37,8 +35,6 @@
                 <thead>
                     
                     <tr>
-                        <th data-field="Id">Id</th>
-                        <th data-field="nombre">Nombre</th>
                         <th data-field="Cantidad">Numero</th>
                         <th data-field="fecha">Comapañia</th>
                         <th data-field="Fabricante">Conectividad</th>
@@ -66,21 +62,17 @@
                     
                     <tr>
                     
-                        <td>".$row["id_sim"]."</td>
-                        <td>".$row["nombre"]."</td>
+                  
                         <td>".$row["numero"]."</td>
                         <td>".$row["compania"]."</td>
                         <td>".$row["conectividad"]."</td>
                         <td>".$row["imei"]."</td>
-                   
-                       
-                        
-                        
+                  
                         <td>
-                             <a href=\"editar.php?id=".$row["id_sim"]."\" class=\"btn btn-info btn-sm\">
+                             <a href=\"editar.php?id=".$row["id_sim"]."\" class=\"btn btn-flat btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
                               </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_sim"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
+							     <a id=\"eliminar\" value=\"".$row["id_sim"]."\" class=\"btn btn-flat btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
                                </td>
                             
                     </tr>";
@@ -92,6 +84,13 @@
     </div>
     </div>
 </body>
+<!-- Latest compiled and minified JavaScript -->
+<script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
+<script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
+<script type="text/javascript" src="../js/bootbox.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
            <script>
     $(document).ready(function(){
         

@@ -5,64 +5,52 @@
     <title>Disco Duro</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
-    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
-       <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+       <script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
        <script type="text/javascript" src="../js/toastr.js"></script>
 </head>
-<body>
+<body class="login-page">
 <a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
 Regresar</a>
 <div class="">  
    
    <div id="cuerpo" class="col-md-8" >
-       <header class="header">
-       <strong><h3 class="text-center">Unidad de Almacenamiento</h3></strong>
-       </header>
-      
-       
+
            <div class="col-md-8 col-md-offset-3" >
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h2 class="box-title"></h2>
+                  <h2 class="box-title">Añadir unidad de Almacenamiento</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
                  <div class="box-body">
-                  
-                  
-                   <div class="form-group">
-                      <label for="marca">Marca</label>
-                       <select class="js-example-basic-multiple  form-control  help-block" id="marca" name="marca" required style="width: 95%" >
-                           <?php cargaComboBox("SELECT * FROM `marca`","id_marca","nombre_marca","descri") ?>
-                       </select>
-                    </div>
-                    
-                    <div class="form-group">
-                      <label for="almacenamiento"> Almacenamiento</label>
-                      <input type="text" class="form-control  input-sm " id="almacenamiento" name="almacenamiento" placeholder="almacenamiento del disco">
+
+                     <div class="form-group">
+                      <label for="almacenamiento">Capacidad</label>
+                      <input type="text" class="form-control  input-sm " id="almacenamiento" name="almacenamiento" placeholder="Capacidad eje: 3TB">
                     </div>
 
                      <div class="form-group">
-                      <label for="cant_raid"> CantIDAD RAIDs</label>
-                      <input type="text" class="form-control  input-sm  " id="cant_raid"  placeholder="cantidad de RAID">
+                      <label for="tipo">Tipo de Arreglo</label>
+                         <select name="tipo" class="form-control" id="tipo">
+                             <option value="na">No Aplica</option>
+                             <option value="r0">RAID 0</option>
+                             <option value="r1">RAID 1</option>
+                             <option value="r5">RAID 5</option>
+                             <option value="r10">RAID 10</option>
+                         </select>
                     </div>
 
                      <div class="form-group">
-                      <label for="tipo">Tipo</label>
-                      <input type="text" class="form-control  input-sm  " id="tipo"  placeholder="ejem estado solido">
+                      <label for="cantidad">Cantidad de discos</label>
+                      <input type="number" class="form-control  input-sm " id="cantidad"  placeholder="eje: 3">
                     </div>
 
                      <div class="form-group">
-                      <label for="fecha">Fecha de compra</label>
-                      <input type="date" class="form-control  input-sm " id="fecha"  placeholder="Fecha de Compra">
+                      <label for="obs">Descripcion de Discos</label>
+                         <textarea  class="form-control  input-sm " id="obs"  placeholder="Ejem 2TB, 2TB, 4TB"></textarea>
                     </div>
-
-                     <div class="form-group">
-                      <label for="obs">Fecha de compra</label>
-                         <textarea type="date" class="form-control  input-sm " id="obs"  placeholder="Ejem buen estado"></textarea>
-                    </div>
-                   
-                
                      
                   </div><!-- /.box-body -->
 
@@ -76,11 +64,10 @@ Regresar</a>
  
  $("#guardar").click(function()
         {
-    var marca = $("#marca").val();
+
     var almacenamiento= $("#almacenamiento").val();
-    var cant_raid= $("#cant_raid").val();
+    var cantidad= $("#cantidad").val();
     var tipo= $("#tipo").val();
-    var fecha= $("#fecha").val();
     var obs= $("#obs").val();
 
     
@@ -97,11 +84,9 @@ Regresar</a>
                 data:
                 {
                     tarea:"guardar",
-                    marca:marca,
                     almacenamiento:almacenamiento,
-                    cant_raid:cant_raid,
+                    cantidad:cantidad,
                     tipo:tipo,
-                    fecha:fecha,
                     obs:obs
                     
                 },
@@ -146,23 +131,4 @@ Regresar</a>
   
 
 </body>
-<?php
-function cargaComboBox($consul,$id,$nombre, $apellido)
-{
-    include('../config/conexion2.php');
-
-    $mbd=DB::connect();DB::disconnect();
-    $proof=$mbd->query($consul);
-    while ($row = $proof->fetch(PDO::FETCH_ASSOC))
-    {
-        echo "<option value='".$row["$id"]."'>";
-        echo $row["$nombre"]."  ".$row["$apellido"];
-        echo "</option>";
-
-    }
-
-}
-
-
-?>
 </html>

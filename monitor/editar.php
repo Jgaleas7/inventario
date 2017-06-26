@@ -2,7 +2,7 @@
 include('../config/conexion2.php');
 $id=$_GET['id'];
 $mbd=DB::connect();DB::disconnect();
-       $proof=$mbd->query("SELECT serie, m.nombre_marca, marca, serv_tag, tamano, inventario, tipo_monitor, observacion 
+       $proof=$mbd->query("SELECT serie, m.nombre_marca, marca, serv_tag, tamano, inventario, tipo_monitor, observacion, fecha_compra
                             FROM monitor mon 
                             INNER JOIN marca m ON mon.marca=m.id_marca WHERE mon.id_monitor='$id'");
       foreach($proof as $row){
@@ -14,6 +14,7 @@ $mbd=DB::connect();DB::disconnect();
 		  $inv=$row["inventario"];
 		  $row["tipo_monitor"];
 		  $row["observacion"];
+		  $row["fecha_compra"];
 	  }
 ?>
 <!DOCTYPE html>
@@ -23,22 +24,29 @@ $mbd=DB::connect();DB::disconnect();
     <title>Monitor</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
-    <link href="../plugins/select2/select2.css" rel="stylesheet">
+    <link href="../plugins/select2/select2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/toastr.css">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
-
-
+    <link href="../plugins/datepicker/datepicker3.css" rel="stylesheet">
 </head>
 <body class="login-page">
-<a  onclick="goBack()" class="btn bg-navy btn-lg">   <span class="fa fa-list"></span>
-    Ver Monitores</a>
-<div class="">
 
-    <div id="cuerpo" class="col-md-10" >
-        <div class="col-md-10 col-md-offset-2" >
+<section class="content-header">
+    <h1>
+        MONITOR
+        <small>Editar Monitor</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a >Monitor</a></li>
+        <li class="active">Edtar Monitor</li>
+    </ol>
+</section>
+
+    <div  class="col-md-12" >
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h2 class="box-title">Añadir Monitor</h2>
+                    <h2 class="box-title">Editar Monitor</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
@@ -53,7 +61,7 @@ $mbd=DB::connect();DB::disconnect();
 
                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
                                 <label for="marca">Marca</label>
-                                <select class="js-example-basic-multiple    help-block" id="marca" name="marca" required style="width: 95%" placeholder="marca">
+                                <select class="help-block" id="marca" name="marca" required style="width: 95%" placeholder="marca">
                                     <?php
                                     $mbd=DB::connect();DB::disconnect();
                                     $proof1=$mbd->query("SELECT id_marca, nombre_marca FROM marca");
@@ -80,7 +88,7 @@ $mbd=DB::connect();DB::disconnect();
                             </div>
 
                             <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                <label for="serv"> Service Tag</label>
+                                <label for="serv"> Service Tag/Modelo</label>
                                 <input type="text" class="form-control  input-sm  help-block" id="serv" value="<?php if (isset($row["serv_tag"])) echo $row["serv_tag"];?>" name="serv" placeholder="Service Tag">
                             </div>
                         </div>
@@ -103,7 +111,7 @@ $mbd=DB::connect();DB::disconnect();
                         <div class="row col-md-12 col-lg-12">
                             <div class="form-group col-md-6 col-sm-6 col-xs-10">
                                 <label class="fa fa-laptop" for="monitor">CPU</label>
-                                <select  class="select2 js-example-theme-multiple form-control help-block" id="cpu" name="cpu" style="width: 100%" required placeholder="Monitor" multiple="multiple">
+                                <select  class="form-control help-block" id="cpu" name="cpu" style="width: 100%" required placeholder="Monitor" multiple="multiple">
 
                                     <?php
                                     $mbd=DB::connect();DB::disconnect();
@@ -125,6 +133,10 @@ $mbd=DB::connect();DB::disconnect();
                             </div>
 
                             <div class="form-group col-md-6 col-sm-6 col-xs-10">
+                                <label for="obs"> Fecha Compra</label>
+                                <input class="form-control input-sm" id="fecha_compra" value="<?php if (isset($row["fecha_compra"])) echo $row["fecha_compra"];?>">
+                            </div>
+                            <div class="form-group col-md-6 col-sm-6 col-xs-10">
                                 <label for="obs"> Observacion</label>
                                 <textarea class="form-control input-group-sm" id="obs" name="obs" placeholder="Ejemplo Buen estado..."><?php if (isset($row["observacion"])) echo $row["observacion"];?></textarea>
                             </div>
@@ -133,21 +145,29 @@ $mbd=DB::connect();DB::disconnect();
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                        <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                        <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                        <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg">   <span class="fa fa-list"></span>
+                            Ver Monitores</a>
+
                     </div>
                 </form>
-                <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+                <script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
                 <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
                 <script src="../plugins/select2/select2.full.js" type="text/javascript"></script>
                 <script type="text/javascript" src="../js/toastr.js"></script>
+                <script type="text/javascript" src="../plugins/datepicker/bootstrap-datepicker.js"></script>
                 <script src="../plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
-                <script src="../dist/js/app.min.js" type="text/javascript"></script>
+
                 <script>
                     $(document).ready(function () {
                         $("#inventario").inputmask("99-999-9999");
-                        $("#marca").select2();
-                        $("#cpu").select2();
+                        $("select").select2();
+
+                        $('#fecha_compra').datepicker({
+                            clearBtn: true,
+                            language: "es"
+                        });
+
                     });
 
 
@@ -162,9 +182,10 @@ $mbd=DB::connect();DB::disconnect();
                         var obs= $("#obs").val();
                         var cpu= $("#cpu").val();
                         var id= $("#id").val();
+                        var fecha_compra= $("#fecha_compra").val();
 
 
-
+                        if(inventario.indexOf('_') != -1) {toastr.error("Numero de Inventario no valido"); return; }
                         if(inventario.trim()=='')
                         {
                             toastr.error("Hay campos que son obligatorios");
@@ -185,18 +206,27 @@ $mbd=DB::connect();DB::disconnect();
                                     obs:obs,
                                     tamano:tamano,
                                     cpu:cpu,
-                                    id:id
+                                    id:id,
+                                    fecha_compra:fecha_compra
 
                                 },
                             success: function(data)
                             {
-                                if(data=="bien"){
-                                    toastr.success('Exito','se ha Guardado correctamnete');
-                                    goBack();
-                                }
-                                //alert(data);
-                                toastr.error("Error", "Ha ocurrido un error");
-                               goBack();
+                                data=data.split("|");
+                                $.each(data, function(i, item) {
+
+                                    if (item=="bien"){
+
+                                        toastr.success('Exito','se ha Guardado correctamnete');
+                                        limpiarcampos();
+                                        goBack();
+                                    }
+                                    if (item=="mal"){
+                                        toastr.error('Error','Error intente de nuevo');
+
+                                    }
+
+                                });
                             },
                             error: function(xhr, ajaxOptions, thrownError)
                             {
@@ -225,7 +255,7 @@ $mbd=DB::connect();DB::disconnect();
 
 
             </div>
-        </div>
+
     </div>
 
 

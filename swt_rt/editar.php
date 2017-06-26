@@ -22,7 +22,7 @@ $mbd=DB::connect();DB::disconnect();
 		  $row["tipo"];
 		  $row["estado"];
 		  $row["descripcion"];
-		  $row["responsable"];
+		  $row["detalle_ubicacion"];
 	  }
 
     
@@ -44,12 +44,21 @@ $mbd=DB::connect();DB::disconnect();
     <script src="../plugins/select2/select2.js" type="text/javascript"></script>
 </head>
 <body class="login-page">
-<a  onclick="goBack()" class="btn bg-navy btn-flat btn-lg">   <span class="glyphicon glyphicon-list"></span>
-    Ver Switch/Router</a>
+
 
 
 <div id="cuerpo" class="col-md-12" >
-
+    <section class="content-header">
+        <h1>
+            Switch/Router
+            <small>Añadir Switch/Router</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a >Switch/Router</a></li>
+            <li class="active">Añadir Switch/Router</li>
+        </ol>
+    </section>
     <div class="col-md-12 " >
         <div class="box box-primary">
             <div class="box-header with-border">
@@ -150,7 +159,22 @@ $mbd=DB::connect();DB::disconnect();
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
                             <label for="ubicacion">Ubicacion</label>
                             <select id="ubicacion" class="form-control input-sm help-block">
-                                <?php cargacombo("SELECT * FROM edificio","id_edificio","nombre_edificio");?>
+
+                                <?php
+                                $mbd=DB::connect();DB::disconnect();
+                                $proof1=$mbd->query("SELECT * FROM departamento");
+
+                                while($row1 = $row1 = $proof1->fetch(PDO::FETCH_ASSOC)){
+                                    if($row1["id_departamento"] == $row["ubicacion"])
+                                    {
+                                        echo "<option selected value=".$row["ubicacion"].">".$row1["nombre_dep"]."</option>";
+                                    }
+                                    else
+                                    {
+                                        echo "<option value=".$row1["id_departamento"].">".$row1["nombre_dep"]."</option>";
+                                    }
+                                }
+                                ?>
                             </select>
                         </div>
 
@@ -168,25 +192,9 @@ $mbd=DB::connect();DB::disconnect();
 
                     <div class="row col-md-12 col-lg-12">
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                            <label for="clave">Responsable</label>
+                            <label for="clave">Detalle Ubicacion</label>
+                            <input type="text" id="d_ubicacion" class="form-control input-sm help-block" value="<?php if (isset($row["detalle_ubicacion"])) echo $row["detalle_ubicacion"];?>" placeholder="eje Rack CNT...">
 
-                            <select id="responsable" class="js-example-basic-multiple select2 form-control help-block">
-                                <?php
-                                $mbd=DB::connect();DB::disconnect();
-                                $proof1=$mbd->query("SELECT id, concat(nombre,' ', apellido) AS nombre FROM empleados");
-
-                                while($row1 = $row1 = $proof1->fetch(PDO::FETCH_ASSOC)){
-                                    if($row1["id"] == $row["responsable"])
-                                    {
-                                        echo "<option selected value=".$row["responsable"].">".$row1["nombre"]."</option>";
-                                    }
-                                    else
-                                    {
-                                        echo "<option value=".$row1["id"].">".$row1["nombre"]."</option>";
-                                    }
-                                }
-                                ?>
-                            </select>
                         </div>
 
                         <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
@@ -201,15 +209,17 @@ $mbd=DB::connect();DB::disconnect();
                         <textarea  class="form-control" id="descripcion" name="descripcion" placeholder="Describa el Equipo"><?php if (isset($row["descripcion"])) echo $row["descripcion"];?></textarea>
                     </div>
                     <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                        <a  onclick="goBack()" class="btn bg-navy btn-flat btn-lg">   <span class="glyphicon glyphicon-list"></span>
+                            Ver Switch/Router</a>
+
                     </div>
             </form>
             <script src="../plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
             <script>
                 $(document).ready(function () {
                     $("#inventario").inputmask("99-999-9999");
-                    $("#responsable").select2();
+                    $("select").select2();
 
                 });
 
@@ -220,6 +230,7 @@ $mbd=DB::connect();DB::disconnect();
                         $("#sfp").prop( "disabled", false );
                     }if (this.value=="router"){
                         $("#sfp").prop( "disabled", true );
+                        $("#sfp").val("");
                     }
 
                 });
@@ -237,7 +248,7 @@ $mbd=DB::connect();DB::disconnect();
                     var ubicacion = $("#ubicacion").val();
                     var marca = $("#marca").val();
                     var modelo = $("#modelo").val();
-                    var responsable = $("#responsable").val();
+                    var d_ubicacion = $("#d_ubicacion").val();
                     var estado = $("#estado").val();
                     var ip = $("#ip").val();
                     var pass = $("#pass").val();
@@ -245,7 +256,7 @@ $mbd=DB::connect();DB::disconnect();
                     var descri = $("#descripcion").val();
 
 
-
+                    if(inventario.indexOf('_') != -1) {toastr.error("Numero de Inventario no valido"); return; }
 
                     if( inventario.trim()=='')
                     {
@@ -271,7 +282,7 @@ $mbd=DB::connect();DB::disconnect();
                                 ubicacion:ubicacion,
                                 marca:marca,
                                 modelo:modelo,
-                                responsable:responsable,
+                                d_ubicacion:d_ubicacion,
                                 estado:estado,
                                 usuario:usuario,
                                 pass:pass,
@@ -279,17 +290,20 @@ $mbd=DB::connect();DB::disconnect();
                             },
                         success: function(data)
                         {
-                            if(data=="bien"){
-                                toastr.success('Exito','se ha Guardado correctamnete');
-                                limpiarcampos();
-                            }
-                            if(data=="Error"){
-                                toastr.error("Error", "Ha ocurrido un Error"+data);
-                            }
-                                 if(data=="error1"){
-                                toastr.error("Error", "Ha ocurrido un Error"+data);
-                            }
+                            data=data.split("|");
+                            $.each(data, function(i, item) {
 
+                                if (item=="bien"){
+
+                                    toastr.success('Exito','se ha Guardado correctamnete');
+                                    limpiarcampos();
+                                }
+                                if (item=="mal"){
+                                    toastr.error('Error','Ya Existe esa Ip');
+
+                                }
+
+                            });
                         },
                         error: function(xhr, ajaxOptions, thrownError)
                         {
@@ -317,9 +331,9 @@ $mbd=DB::connect();DB::disconnect();
 function cargacombo($consul,$id,$nombre)
 
 {
-    include('../config/conexion.php');
-    $resul=mysqli_query($mysqli,$consul);
-    while ($row=mysqli_fetch_array($resul))
+    $mbd=DB::connect();DB::disconnect();
+    $proof=$mbd->query($consul);
+    while ($row = $proof->fetch(PDO::FETCH_ASSOC))
     {
         echo "<option value='".$row[$id]."'>";
 

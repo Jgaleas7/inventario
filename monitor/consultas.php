@@ -16,20 +16,21 @@
         		$tamano=$_POST["tamano"];
         		$obs=$_POST["obs"];
         		$cpu=$_POST["cpu"];
+        		$fecha_compra=$_POST["fecha_compra"];
 
        if (!trim($inventario) == '') {
 
-           $proof=$mbd->query("INSERT INTO monitor ( serie, marca, serv_tag, tamano, inventario, tipo_monitor, observacion)
-        VALUES ('$serie', '$marca', '$service', '$tamano', '$inventario', '$tipo', '$obs')");
+           $proof=$mbd->query("INSERT INTO monitor ( serie, marca, serv_tag, tamano, inventario, tipo_monitor, observacion, fecha_compra)
+                                VALUES ('$serie', '$marca', '$service', '$tamano', '$inventario', '$tipo', '$obs', '$fecha_compra')");
 
             if ($proof){
                      guardarCpu($inventario, $cpu);
-                     echo "bien";
+                echo "|bien|";
             }else{
-                     echo "Error1";
+                echo "|mal|";
               }
             } else{
-                   echo "Error";
+           echo "|mal|";
             }
 
         break;
@@ -46,22 +47,23 @@
       $obs=$_POST["obs"];
       $cpu=$_POST["cpu"];
       $id=$_POST["id"];
+      $fecha_compra=$_POST["fecha_compra"];
 
 
             if (!trim($inventario) == '') {
 				
            $proof=$mbd->query("UPDATE monitor SET serie='$serie', marca='$marca', serv_tag='$service',
-            tamano='$tamano', inventario='$inventario', tipo_monitor='$tipo', observacion='$obs' WHERE id_monitor='$id'");
+            tamano='$tamano', inventario='$inventario', tipo_monitor='$tipo', observacion='$obs', fecha_compra='$fecha_compra' WHERE id_monitor='$id'");
            if ($proof){
                $proof1=$mbd->query(" DELETE FROM detalle_cpu_monitor   WHERE id_numinventario='$inventario'");
                guardarCpu($inventario, $cpu);
-               echo "bien";
+               echo "|bien|";
            }else{
-               echo "error1";
+               echo "|mal|";
            }
 
 			}else{
-                echo "Error";
+                echo "|mal|";
             } 
 break;
 

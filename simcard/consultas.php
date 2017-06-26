@@ -8,48 +8,42 @@
 
         case 'guardar':
              $mbd=DB::connect();DB::disconnect();
-        		$nombre=$_POST['nombre'];
         		$numero=$_POST["numero"];
         		$imei=$_POST["imei"];
         		$conectividad=$_POST["conectividad"];
         		$compania=$_POST["compania"];
 
-
-
       
        if (!trim($numero) == '') {
 		  
 
-      $proof=$mbd->query("INSERT INTO simcard(imei, nombre, numero, compania, conectividad) 
-        VALUES('$imei', '$nombre', '$numero', '$compania', '$conectividad')");
-      if ($proof){
-                echo "bien";
-      }else{
-                echo "Error1";
-      }
+      $proof=$mbd->query("INSERT INTO simcard(imei,  numero, compania, conectividad) 
+        VALUES('$imei', '$numero', '$compania', '$conectividad')");
+      if ($proof){ echo "|bien|";
+      }else{ echo "|mal|"; }
 
-
-       } else{
-                echo "Error";
-            }
+       } else{ echo "|mal|"; }
 
         break;
 
   case 'editar':
-			$mbd=DB::connect();DB::disconnect();
-		 $marca=$_POST['marca'];
-        $desc=$_POST["desc"];
+			$mbd=DB::connect();
+      $numero=$_POST["numero"];
+      $imei=$_POST["imei"];
+      $conectividad=$_POST["conectividad"];
+      $compania=$_POST["compania"];
         $id=$_POST["id"];
     
 
-            if (!trim($marca) == '') {
+            if (!trim($imei) == '') {
 				
-           $proof=$mbd->query("UPDATE marca SET 
-		   nombre_marca='$marca', descri='$desc' WHERE id_marca='$id'");
-          // $proof->execute();
-			}else{
-                echo "Error";
-            } 
+           $proof=$mbd->query("UPDATE simcard SET imei='$imei',
+      numero='$numero', compania='$compania', conectividad='$conectividad' WHERE id_sim='$id'");
+          if ($proof){  echo "|bien|";}
+
+          else{ echo "|mal|";}
+
+			}else{ echo "|mal|";}
 break;
 
 case 'eliminar':

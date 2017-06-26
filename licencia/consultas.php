@@ -19,21 +19,25 @@
         		$cantidad=$_POST["cant_lic"];
         		$pagina=$_POST["pag_web"];
         		$tipo_contrato=$_POST["tipo_contrato"];
+        		$users=$_POST["users"];
 
        if (!trim($nombre) == '') {
 
       $proof=$mbd->query("INSERT INTO licencia( nombre, idioma, descripcion, fecha_adqui, fecha_vence, 
                                               fabricante, clave, usuario_lic, pass, cant_lic, pag_web, tipo_contrato)
         VALUES ('$nombre', '$idioma', '$descripcion', CURDATE(), '$fecha_vence', '$fabricante', '$clave', '$usuario', '$pass', '$cantidad', '$pagina', '$tipo_contrato')");
+
+      //verificar si se ejecuto de forma correcta la consulta
       if ($proof){
-          echo "bien";
+            guardarUser($mbd->lastInsertId(),$users);
+          echo "|bien|";
       }else{
-          echo "error1";
+          echo "|mal|";
       }
 
 
        } else{
-                echo "Error";
+           echo "|mal|";
             }
 
         break;
@@ -52,39 +56,44 @@
       $cantidad=$_POST["cant_lic"];
       $pagina=$_POST["pag_web"];
       $tipo_contrato=$_POST["tipo_contrato"];
-    
+      $users=$_POST["users"];
 
-            if (!trim($nombre) == '' || $cantidad>0) {
+      $cant_lic_usadas=$mbd->query("SELECT COUNT(*) FROM detalle_cpu_licencia dl WHERE dl.id_licencia='$id'");
+
+            $lic_usadas=$cant_lic_usadas->fetchColumn();
+
+            if (!trim($nombre) == '' && $cantidad>0 &&  (int)$lic_usadas <= $cantidad) {
 				
            $proof=$mbd->query("UPDATE licencia SET nombre='$nombre',
                               idioma='$idioma', descripcion='$descripcion', fecha_vence='$fecha_vence',
                               fabricante='$fabricante', clave='$clave', usuario_lic='$usuario',
                               pass='$pass', cant_lic='$cantidad', pag_web='$pagina', tipo_contrato='$tipo_contrato'  WHERE id_licencia='$id'");
             if ($proof){
-                echo "bien";
+                $proof1=$mbd->query(" DELETE FROM detalle_users_licencia WHERE id_licencia='$id'");
+                guardarUser($id, $users);
+
+                echo "|bien|";
             }else{
-                echo "Error1";
+                echo "|mal|";
             }
 			}else{
-                echo "Error";
+                echo "|mal|";
             } 
     break;
 
-    case 'eliminar':
-			$mbd=DB::connect();DB::disconnect();
-		
-        $id=$_POST["id"];
-    
 
-            if (!trim($id) == '') {
-				
-           $proof=$mbd->query("DELETE FROM marca WHERE id_marca='$id'");
-          // $proof->execute();
-				echo $id;
-			}else{
-                echo "Error";
-            }
-    break;
         
     endswitch;
+
+
+function guardarUser($id_lic,  $user){
+    $mbd=DB::connect();DB::disconnect();
+    if (isset($user) && !empty($user)){
+
+                foreach ($user as $row){
+                    $proof=$mbd->query("INSERT INTO detalle_users_licencia( id_licencia, id_empleado) VALUES ('$id_lic', '$row')");
+                     }
+
+    }
+}
 ?>

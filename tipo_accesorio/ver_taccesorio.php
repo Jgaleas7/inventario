@@ -9,7 +9,7 @@
      <link rel="stylesheet" href="../css/toastr.css" >
 
     <!-- Optional theme -->
-   <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+   <script src="../plugins/jQuery/jquery-3.1.1.js" type="text/javascript"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
@@ -40,11 +40,7 @@
                         <th data-field="ID">ID</th>
                         <th data-field="Tipo Accesorio">Tipo Accesorio</th>
                         <th data-field="Editar">Editar</th>
-                        <th data-field="Eliminar">Eliminar</th>
-                       
-                        
-                        
-                       
+
                     </tr>
                 </thead> 
                 <tbody>
@@ -67,9 +63,7 @@
                         <td>
                              <a href=\"editar.php?id=".$row["id_taccesorio"]."\" class=\"btn btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
-                              </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_taccesorio"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
-                               </td>
+                              </a></td>
                             
                     </tr>";
 
@@ -84,44 +78,9 @@
            <script>
     $(document).ready(function() {
 
-        var table = $('#ver').DataTable();
-        $(".btn-danger").click(function () {
-
-            var id = $(this).attr('value');
-
-            bootbox.confirm("seguro que lo quiere eliminar?", function (result) {
-                if (result == true) {
-                    eliminar(id);
-                }
-            });
-
-        });
+        $('#ver').DataTable();
 
     });
-			   
-
-    function eliminar (id){
-
-
-        $.ajax(
-            {
-                type: "POST",
-                url: "consultas.php",
-                data: {
-                    tarea: 'eliminar',
-                    id: id
-                   
-                },
-                success: function (data){
-
-                    //alert(data);
-					  location.reload();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(thrownError);
-                }
-            });
-    }
 
     
     

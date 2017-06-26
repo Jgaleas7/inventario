@@ -6,6 +6,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" >
      <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css" >
 
     <!-- Optional theme -->
@@ -27,8 +28,11 @@
 
 <div class="container-fluid">
    <h2>Live U
-                        <a href="liveu.php" class="btn btn-success btn-md">
+                        <a href="liveu.php" class="btn btn-flat btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
+                        </a>
+       <a href="ver_advance.php" class="btn btn-flat  btn-primary btn-md">
+                            <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
                     </h2>
     <div class="row">
@@ -63,10 +67,10 @@
                         <td>".$row["asignado"]."</td>
                       
                         <td>
-                             <a href=\"editar.php?id=".$row["id_liveu"]."\" class=\"btn btn-info btn-sm\">
+                             <a href=\"editar.php?id=".$row["id_liveu"]."\" class=\"btn btn-flat btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
                               </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_liveu"]."\" class=\"btn btn-sm btn-danger\">
+							     <a id=\"eliminar\" value=\"".$row["id_liveu"]."\" class=\"btn btn-flat btn-sm btn-danger\">
 							     <span class=\"glyphicon glyphicon-trash\"></span>Eliminar 											</a>
                                </td>                           
                     </tr>";

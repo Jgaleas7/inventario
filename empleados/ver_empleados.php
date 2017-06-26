@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Empleados</title>
     <!-- Latest compiled and minified CSS -->
-    <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" >
-           <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+    <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
+
     <!-- Optional theme -->
 
 
@@ -25,8 +27,11 @@
 
 <div class="container-fluid">
       <h2>Empleados
-                        <a href="cajeros.php" class="btn btn-success btn-md">
+                        <a href="empleados.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span>Nuevo
+                        </a>
+          <a href="ver_advance.php" class="btn btn-flat btn-primary btn-md">
+                            <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
                         
                     </h2>
@@ -38,18 +43,13 @@
                                                               
                                                                  
                     <tr>
-                        
-                                      
-                
-                        <th data-field="nombre">ID</th>
+
                         <th data-field="nombre">Nombre</th>
                         <th data-field="apellido">Apellido</th>
                         <th data-field="telefono">Telefono</th>
+                        <th data-field="departamento">Departamento</th>
                         <th data-field="editar">Editar</th>
                         <th data-field="eliminar">Eliminar</th>
-                        
-                     
-                       
                     </tr>
                     
                 <tbody> 
@@ -58,7 +58,8 @@
                // $cn = new conexion();
               $mbd=DB::connect();DB::disconnect();
                 // VERDADERA
-             $proof=$mbd->query("select * from empleados");
+             $proof=$mbd->query("SELECT id, nombre, apellido, telefono, departamento.nombre_dep FROM 
+                              empleados e INNER JOIN departamento ON e.id_departamento=departamento.id_departamento");
                                    
            		
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
@@ -66,19 +67,20 @@
                     
                     <tr>
                     
-                        <td>".$row["id"]."</td>
+                     
                         <td>".$row["nombre"]."</td>
                         <td>".$row["apellido"]."</td>
                         <td>".$row["telefono"]."</td>
+                        <td>".$row["nombre_dep"]."</td>
                         
                         
                         <td>
-                             <a href=\"editar.php?id=".$row["id"]."\" class=\"btn btn-info btn-sm\">
+                             <a href=\"editar.php?id=".$row["id"]."\" class=\"btn btn-flat btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
                               </a>
                                </td>
 							   <td>
-                             <a href=\"editar.php?id=".$row["id"]."\" class=\"btn btn-danger btn-sm\">
+                             <a href=\"editar.php?id=".$row["id"]."\" class=\"btn btn-flat btn-danger btn-sm\">
                                     <span class=\"glyphicon glyphicon-trash\"></span>Eliminar
                               </a>
                                </td>

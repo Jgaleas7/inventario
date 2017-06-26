@@ -11,7 +11,6 @@ $mbd=DB::connect();DB::disconnect();
 
 	  }
 
-    
 ?>
 
 <!DOCTYPE html>
@@ -20,26 +19,21 @@ $mbd=DB::connect();DB::disconnect();
     <meta charset="UTF-8">
     <title>Tipo Accesorio</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
-       <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+       <script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
        <script type="text/javascript" src="../js/toastr.js"></script>
 </head>
-<body>
-<a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
-Regresar</a>
-<div class="">
+<body class="login-page">
 
     <div id="cuerpo" class="col-md-8" >
-        <header class="header">
-            <center><strong><h2>Editar Tipo de Accesorio</h2></strong></center>
-        </header>
 
 
         <div class="col-md-8 col-md-offset-3" >
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h2 class="box-title"></h2>
+                    <h2 class="box-title"> Editar Tipo Accesorio</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
@@ -48,14 +42,15 @@ Regresar</a>
 <input type="hidden" id="id"  value="<?php if (isset($row["id_taccesorio"])) echo $row["id_taccesorio"];?>" >
                         <div class="form-group">
                             <label for="marca">Tipo de Accesorio</label>
-                 <input type="text" class="form-control input-md col-md-6 col-sm-7 col-xs-8" id="tipo_accesorio" name="marca" value="<?php if (isset($row["tipo_accesorio"])) echo $row["tipo_accesorio"];?>" placeholder="cable, ups etc">
+                 <input type="text" class="form-control input-md col-md-6 col-sm-7 col-xs-8" id="tipo_accesorio"  value="<?php if (isset($row["tipo_accesorio"])) echo $row["tipo_accesorio"];?>" placeholder="cable, ups etc">
                         </div>
                         <hr>
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                        <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                        <button type="button" id="guardar" class="btn btn-flat btn-primary btn-lg">Guardar</button>
+                        <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg">   <span class="fa fa-list"></span>
+                            Regresar</a>
                     </div>
                 </form>
                 
@@ -87,16 +82,21 @@ Regresar</a>
                 },
                 success: function(data)
                 {
-				if(data=="bien"){
-                    toastr.success('Exito','se ha Guardado correctamnete');
-                    limpiarcampos();
-                    goBack();
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
 
-                }
-                if(data=="Error"){
-				    toastr.error("Error", "ha Ocurrido un error try again");
-                    goBack();
-                }
+                        if (item=="bien"){
+
+                            toastr.success('Exito','se ha Guardado correctamnete');
+                            limpiarcampos();
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Error Intente de nuevo');
+
+                        }
+
+                    });
+
 
                 },
                 error: function(xhr, ajaxOptions, thrownError)

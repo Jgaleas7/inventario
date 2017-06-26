@@ -19,7 +19,7 @@
         		$fecha_compra=$_POST["fecha_compra"];
         		$descripcion=$_POST["descri"];
         		$sim=$_POST["sim"];
-
+        		$sim=array_unique($sim);
 
       
        if (!trim($inventario) == '') {
@@ -29,15 +29,10 @@
                           VALUES ('$nombre', '$tipo','$inventario', '$modelo', '$serie', '$fecha_compra', '$modem','$asignado', '$version', '$descripcion')");
       if ($proof){
                   guardarSim($inventario, $sim);
+          echo "|bien|";
 
-      }else{
-          echo "Error1";
-      }
-
-
-       } else{
-                echo "Error";
-            }
+      }else{ echo "|mal|"; }
+      } else{ echo "|mal|";}
 
         break;
 
@@ -55,7 +50,7 @@
       $fecha_compra=$_POST["fecha_compra"];
       $descripcion=$_POST["descri"];
       $sim=$_POST["sim"];
-    
+      $sim=array_unique($sim);
 
             if (!trim($id) == ''  || !trim($inventario)=='') {
 				
@@ -66,11 +61,9 @@
             if ($proof){
                         $proof1=$mbd->query(" DELETE FROM detalle_sim WHERE num_inventario='$inventario'");
                         guardarSim($inventario, $sim);
-                        echo "bien";
-                 }
-            }else{
-                    echo "Error";
-                }
+                echo "|bien|";
+                 }else{ echo "|mal|"; }
+                 }else{ echo "|mal|"; }
 break;
 
 case 'eliminar':

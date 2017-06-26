@@ -14,30 +14,33 @@
        if (!trim($ip) == '' && $proof->fetchColumn()==0 ) {
                       $proof=$mbd->query("INSERT INTO ipv4 ( ip)
                         VALUES ('$ip')");
-                       echo "bien";
-
+                      if ($proof){
+                          echo "|bien|";
+                      }else{
+                          echo "|mal|";
+                      }
        } else{
-                echo "error";
+           echo "|mal|";
             }
-
         break;
        
 
   case 'editar':
 			$mbd=DB::connect();DB::disconnect();
-		 $marca=$_POST['marca'];
-        $desc=$_POST["desc"];
+		;
+        $ip=$_POST["ip"];
         $id=$_POST["id"];
-    
+      $proof=$mbd->query("SELECT ip FROM ipv4 WHERE ip='$ip' AND id_ip!='$id'");
 
-            if (!trim($marca) == '') {
+            if (!trim($ip) == '' && $proof->fetchColumn()==0) {
 				
-           $proof=$mbd->query("UPDATE marca SET 
-		   nombre_marca='$marca', descri='$desc' WHERE id_marca='$id'");
-          // $proof->execute();
-			}else{
-                echo "Error";
-            } 
+           $proof=$mbd->query("UPDATE ipv4 SET 
+		   ip='$ip' WHERE id_ip='$id'");
+
+           if ($proof){ echo "|bien|";   }
+           else{ echo "|mal|"; }
+
+			}else{ echo "|mal|"; }
 break;
 
             case'verifica':  //verificar si ya existe el numero de ip
@@ -68,4 +71,5 @@ case 'eliminar':
     break;
         
     endswitch;
-?>
+
+

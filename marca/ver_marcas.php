@@ -14,19 +14,8 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
-    <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
-<style>
-    td.details-control {
-        background: url('../resources/details_open.png') no-repeat center center;
-        cursor: pointer;
-    }
-    tr.shown td.details-control {
-        background: url('../resources/details_close.png') no-repeat center center;
-    }
-</style>
+
+
 </head>
 <body>
 <nav>
@@ -35,7 +24,7 @@
 
 <div class="container-fluid">
    <h2>MARCAS
-                        <a href="tipos_cliente.php" class="btn btn-success btn-md">
+                        <a href="marcas.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
                         </a>
                     </h2>
@@ -48,12 +37,6 @@
                         <th data-field="id">id</th>
                         <th data-field="area">MARCA</th>
                         <th data-field="descripcion">Descripcion</th>
-                        <th data-field="descripcion">Editar</th>
-                        <th data-field="descripcion">Eliminar</th>
-                       
-                        
-                        
-                       
                     </tr>
                 </thead> 
                 <tbody>
@@ -72,16 +55,11 @@
                     
                         <td>".$row["id_marca"]."</td>
                         <td>".$row["nombre_marca"]."</td>
-                        <td>".$row["descri"]."</td>
-                       
-                        
-                        
+           
                         <td>
                              <a href=\"editar.php?id=".$row["id_marca"]."\" class=\"btn btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
-                              </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_marca"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
-                               </td>
+                              </a></td>
                             
                     </tr>";
 
@@ -93,53 +71,18 @@
     </div>
     </div>
 </body>
+<script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
+<script type="text/javascript" src="../js/bootbox.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
            <script>
 
 
 
     $(document).ready(function() {
-
-        var table = $('#ver').DataTable();
-        $(".btn-danger").click(function () {
-
-            var id = $(this).attr('value');
-
-            bootbox.confirm("seguro que lo quiere eliminar?", function (result) {
-                if (result == true) {
-                    eliminar(id);
-                }
-            });
-
-        });
-
+       $('#ver').DataTable();
 
     });
-			   
 
-    function eliminar (id){
-
-
-        $.ajax(//funcion ajax le mando la tarea al switch y creo new variables que tienen el valor del form
-            {
-                type: "POST",
-                url: "consultas.php",
-                data: {
-                    tarea: 'eliminar',
-                    id: id
-                   
-                },
-                success: function (data){
-
-                    //alert(data);
-					  location.reload();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(thrownError);
-                }
-            });
-    }
-
-    
-    
  </script>
 </html>

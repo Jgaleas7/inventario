@@ -13,7 +13,7 @@
         		$ubicacion=$_POST["ubicacion"];
         		$marca=$_POST["marca"];
         		$modelo=$_POST["modelo"];
-        		$responsable=$_POST["responsable"];
+        		$cpu=$_POST["cpu"];
         		$estado=$_POST["estado"];
         		$descri=$_POST["descri"];
 
@@ -21,54 +21,42 @@
        if (!trim($inventario) == '') {
 		  
 
-      $proof=$mbd->query("INSERT INTO accesorios(num_inventario, tipo, serie, ubicacion, marca, modelo, responsable,  estado, descri)
-        VALUES ('$inventario', '$tipo', '$serie', '$ubicacion', '$marca', '$modelo', '$responsable', '$estado', '$descri' )");
-       if($proof){
-         echo "bien";
-       }else{
+      $proof=$mbd->query("INSERT INTO accesorios(num_inventario, tipo, serie, ubicacion, marca, modelo, cpu,  estado, descri)
+        VALUES ('$inventario', '$tipo', '$serie', '$ubicacion', '$marca', '$modelo', '$cpu', '$estado', '$descri' )");
+       if($proof){  echo "|bien|"; }else{  echo "|mal|"; }
 
-           echo "Error";
-       }
-
-       } else{
-                echo "Error";
-            }
+       } else{ echo "|mal|"; }
 
         break;
        
 
   case 'editar':
 			$mbd=DB::connect();DB::disconnect();
-		 $marca=$_POST['marca'];
-        $desc=$_POST["desc"];
-        $id=$_POST["id"];
+      $id=$_POST['id'];
+      $inventario=$_POST['inventario'];
+      $tipo=$_POST["tipo"];
+      $serie=$_POST["serie"];
+      $ubicacion=$_POST["ubicacion"];
+      $marca=$_POST["marca"];
+      $modelo=$_POST["modelo"];
+      $cpu=$_POST["cpu"];
+      $estado=$_POST["estado"];
+      $descri=$_POST["descri"];
     
 
-            if (!trim($marca) == '') {
+            if (!trim($id) == ''  || !trim($inventario)=='' ) {
 				
-           $proof=$mbd->query("UPDATE marca SET 
-		   nombre_marca='$marca', descri='$desc' WHERE id_marca='$id'");
-          // $proof->execute();
-			}else{
-                echo "Error";
-            } 
-break;
+           $proof=$mbd->query("UPDATE accesorios SET 
+                                num_inventario='$inventario', tipo='$tipo', serie='$serie',
+                                ubicacion='$ubicacion', marca='$marca', modelo='$modelo' , cpu='$cpu', estado='$estado',
+                                descri='$descri' WHERE id_accesorio='$id'");
 
-case 'eliminar':
-			$mbd=DB::connect();DB::disconnect();
-		
-        $id=$_POST["id"];
-    
+                   if ($proof){  echo "|bien|";  }else{  echo "|mal|";}
 
-            if (!trim($id) == '') {
-				
-           $proof=$mbd->query("DELETE FROM marca WHERE id_marca='$id'");
-          // $proof->execute();
-				echo $id;
-			}else{
-                echo "Error";
-            }
-    break;
+			}else{ echo "|mal|"; }
+        break;
+
+
         
     endswitch;
 ?>

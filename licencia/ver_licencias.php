@@ -21,15 +21,15 @@
 
 </head>
 <body>
-<nav>
 
-</nav>
 
 <div class="container-fluid">
    <h2>Licencias
                         <a href="licencia.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
                         </a>
+       <a href="ver_advance.php" class="btn btn-primary btn-md">
+           <span class="glyphicon glyphicon-eye-open"></span></a>
                     </h2>
     <div class="row">
         <div class="col-lg-11"> <!-- Note that "m8 l9" was added -->
@@ -63,15 +63,13 @@
                     <tr>
                    
                         <td>".$row["nombre"]."</td>
-                        <td>".$row["cant_lic"]."</td>
-                        <td>".$row["usadas"]."</td>
+                        <td> <label class=\"label label-primary\"> ".$row["cant_lic"]."</label></td>
+                        <td><label class=\"label label-default\"> ".$row["usadas"]."</label></td>
                         <td>".$row["fecha_vence"]."</td>
                         <td>".$row["fabricante"]."</td>
                         <td>".$row["clave"]."</td>
                       
-                       
-                        
-                        
+
                         <td>
                              <a href=\"editar.php?id=".$row["id_licencia"]."\" class=\"btn btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
@@ -92,16 +90,16 @@
     $(document).ready(function(){
         
                 $('#ver').DataTable();
-		$(".btn-danger").click(function(){
+		        $(".btn-danger").click(function(){
 			
 		        	var id=$(this).attr('value');
 			
                 bootbox.confirm("seguro que lo quiere eliminar?", function(result) {
-	             if(result==true){
-		                     eliminar(id);
-	                     }
+	              if(result==true){eliminar(id);   }
 
-});   });
+                              });
+
+		        });
         
     });
 			   

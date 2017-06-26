@@ -6,44 +6,32 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" >
      <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css" >
     <!-- Optional theme -->
    <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
-    <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
-
 </head>
 <body>
-<nav>
-
-</nav>
-
 <div class="container-fluid">
    <h2>Monitores
                         <a href="monitor.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
+                        </a>
+       <a href="ver_advance.php" class="btn btn-flat btn-primary btn-md">
+                            <span class="glyphicon glyphicon-eye-open"></span>
                         </a>
                     </h2>
     <div class="row">
         <div class="col-lg-11"> <!-- Note that "m8 l9" was added -->
             <table id="ver" class="display table " cellspacing="0" >
                 <thead>
-                    
                     <tr>
-
-                        <th data-field="Id" class="hidden">Id</th>
                         <th data-field="inventario">Inventario</th>
                         <th data-field="Marca">Marca</th>
                         <th data-field="tipo">Tipo de Monitor</th>
                         <th data-field="Ver">Ver</th>
                         <th data-field="Eliminar">Eliminar</th>
-
                     </tr>
                 </thead> 
                 <tbody>
@@ -52,21 +40,19 @@
                
               $mbd=DB::connect();DB::disconnect();
 
-             $proof=$mbd->query("select * from monitor");
+             $proof=$mbd->query("select inventario, id_monitor, tipo_monitor, m.nombre_marca from monitor mon INNER JOIN marca m ON mon.marca=m.id_marca");
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
                     echo "
                     <tr>
-                    
-                        <td hidden>".$row["id_monitor"]."</td>
                         <td>".$row["inventario"]."</td>
-                        <td>".$row["marca"]."</td>
+                        <td>".$row["nombre_marca"]."</td>
                         <td>".$row["tipo_monitor"]."</td>
                         
                         <td>
-                             <a href=\"editar.php?id=".$row["id_monitor"]."\" class=\"btn btn-info btn-sm\">
+                             <a href=\"editar.php?id=".$row["id_monitor"]."\" class=\"btn btn-flat btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
                               </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_monitor"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
+							     <a id=\"eliminar\" value=\"".$row["id_monitor"]."\" class=\"btn btn-flat btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
                                </td> 
                     </tr>";
                 }
@@ -77,6 +63,13 @@
     </div>
     </div>
 </body>
+<!-- Latest compiled and minified JavaScript -->
+<script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
+<script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
+<script type="text/javascript" src="../js/bootbox.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
            <script>
     $(document).ready(function(){
         

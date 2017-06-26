@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <title>Ip</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
-    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
-       <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+       <script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
        <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
        <script type="text/javascript" src="../js/toastr.js"></script>
 </head>
-<body>
-<a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
-Regresar</a>
+<body class="login-page">
+
 <div class="">  
    
    <div id="cuerpo" class="col-md-8" >
@@ -40,7 +40,8 @@ Regresar</a>
 
                   <div class="box-footer">
                     <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                      <a  onclick="goBack()" class="btn bg-navy btn-flat btn-lg">   <span class="fa fa-list"></span>
+                          Ver IP</a>
                   </div>
                 </form>
                 
@@ -63,7 +64,7 @@ Regresar</a>
             }
             else
             {
-              toastr.error("Error","You have entered an invalid IP address!");
+              toastr.error("Error","Has ingresado una IP invalida!");
                 return;
             }
 
@@ -84,19 +85,23 @@ Regresar</a>
                 },
                 success: function(data)
                 {
-                    var  data1=data.replace(/\s/g, '');
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
 
-					if(data1=="bien"){
-                            $("#ip").removeClass("has-error");
-                            $("#ip").addClass("has-success");
+                        if (item=="bien"){
+
                             toastr.success('Exito','se ha Guardado correctamnete');
                             limpiarcampos();
-                    }
-                  else{
-                        toastr.error('Error','Ya Existe esa Ip');
-                    $("#ip").removeClass("has-success");
-                    $("#ip").addClass("has-error");
-                }
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Ya Existe esa Ip');
+
+                        }
+
+                    });
+
+
+
 
                 },
                 error: function(xhr, ajaxOptions, thrownError)

@@ -1,3 +1,4 @@
+<?php     include('../config/conexion2.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,20 +6,28 @@
     <title>Accesorios</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link href="../plugins/select2/select2.min.css" rel="stylesheet">
      <link rel="stylesheet" href="../css/toastr.css">
      <link rel="stylesheet" href="../js/node_modules/custombox/dist/custombox.min.css">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
-       <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-       <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
-       <script type="text/javascript" src="../js/toastr.js"></script>
-       <script type="text/javascript" src="../js/node_modules/custombox/dist/custombox.min.js"></script>
+
 </head>
 <body class="login-page">
-<a  onclick="goBack()" class="btn bg-navy btn-lg">   <span class="glyphicon glyphicon-list"></span>
-Ver Accesorios</a>
+
 
    
    <div id="cuerpo" class="col-md-12" >
+       <section class="content-header">
+           <h1>
+               Accesorios
+               <small>Añadir Accesorios</small>
+           </h1>
+           <ol class="breadcrumb">
+               <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+               <li><a >Accesorios</a></li>
+               <li class="active">Añadir Accesorios</li>
+           </ol>
+       </section>
            <div class="col-md-12 " >
                <div class="box box-primary">
                    <div class="box-header with-border">
@@ -27,11 +36,20 @@ Ver Accesorios</a>
                 <form role="form">
                  <div class="box-body">
                   <div class="row col-md-12  col-lg-12">
-                      <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                     <!-- <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
                           <label for="inventario">Numero de Inventario*</label>
                           <input type="text" class="form-control input-sm help-block" id="inventario" name="nombre" placeholder="Numero de Inventario">
-                      </div>
+                      </div> -->
 
+                     <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <label for="inventario">Numero de Inventario*</label>
+                        <div class="input-group margin ">
+                            <input type="text" id="inventario" class="form-control input-sm" placeholder="Numero de Inventario">
+                            <span class="input-group-btn">
+                      <button type="button" id="generarInv" class="btn btn-info input-sm btn-flat"><i class="fa fa-download"></i></button>
+                      </span>
+                  </div>
+                 </div>
                       <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
                           <label for="tipo">Tipo Accesorio</label>
                           <select id="tipo" class="form-control input-sm help-block">
@@ -52,7 +70,7 @@ Ver Accesorios</a>
                           <label for="ubicacion">Ubicacion</label>
                           <select id="ubicacion" class="form-control input-sm help-block">
 
-                              <?php cargacombo("SELECT * FROM edificio","id_edificio","nombre_edificio");?>
+                              <?php cargacombo("select * from departamento", "id_departamento", "nombre_dep");?>
 
                           </select>
                       </div>
@@ -77,31 +95,14 @@ Ver Accesorios</a>
 
 
                     </div>
-                     <div class="box" id="modal" style="display: none">
-                         <div class="box-header with-border">
-                             <h3 class="box-title">Default Box Example</h3>
-                             <div class="box-tools pull-right">
-                                 <!-- Buttons, labels, and many other things can be placed here! -->
-                                 <!-- Here is a label for example -->
-                                 <span class="fa-times ">x</span>
-                             </div><!-- /.box-tools -->
-                         </div><!-- /.box-header -->
-                         <div class="box-body">
-                             The body of the box
-                         </div><!-- /.box-body -->
-                         <div class="box-footer">
-                             The footer of the box
-                         </div><!-- box-footer -->
-                     </div><!-- /.box -->
 
 
                         <div class="row col-md-12 col-lg-12">
                             <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                                <label for="clave">Responsable</label>
+                                <label for="cpu">CPU</label>
 
-                                <select id="responsable" class="form-control input-sm help-block">
-
-                                    <?php cargacombo("SELECT id, concat(nombre,' ', apellido) AS nombre FROM empleados","id","nombre");?>
+                                <select id="cpu" class="form-control input-sm help-block">
+                                    <?php cargaComboBox("SELECT id_increment, nombre_cpu, num_inventario FROM cpu","id_increment","nombre_cpu","num_inventario") ?>
 
                                 </select>
                             </div>
@@ -127,14 +128,38 @@ Ver Accesorios</a>
                      </div>
 
                      <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                     <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg">   <span class="glyphicon glyphicon-list"></span>
+                             Ver Accesorios</a>
                      </div>
                 </form>
+                   <script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
+                   <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+                   <script src="../plugins/select2/select2.full.js" type="text/javascript"></script>
+                   <script type="text/javascript" src="../js/toastr.js"></script>
+                   <script type="text/javascript" src="../js/node_modules/custombox/dist/custombox.min.js"></script>
                    <script src="../plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
                 <script>
 $(document).ready(function () {
+    $.fn.select2.defaults.set("theme", "classic");
     $("#inventario").inputmask("99-999-9999");
+    $("select").select2();
+    $("#cpu").val('').trigger('change');
+    $("#cpu").select2({
+        allowClear: true,
+        placeholder: "Seleccipne Equipo.."
+
+    });
+});
+$("#generarInv").click(function () {
+    var timestamp = event.timeStamp;
+    var d = new Date();
+    var seconds = d.getSeconds();
+    var year= d.getFullYear();
+    var x=year+""+seconds+""+timestamp;
+    var SetInventario= x.substring(0, 9);
+    $("#inventario").val(SetInventario);
+    console.log(SetInventario);
 });
  
  $("#guardar").click(function()
@@ -145,19 +170,16 @@ $(document).ready(function () {
     var ubicacion = $("#ubicacion").val();
     var marca = $("#marca").val();
     var modelo = $("#modelo").val();
-    var responsable = $("#responsable").val();
+    var cpu = $("#cpu").val();
     var estado = $("#estado").val();
     var descri = $("#descripcion").val();
 
 
     
      
-  if( inventario.trim()=='')
-            {
-               toastr.error("Hay campos que son obligatorios");
-                return;
-            }
-            
+  if( inventario.trim()=='') {toastr.error("Hay campos que son obligatorios"); return; }
+            if (!/^([0-9])*$/.test(marca) || marca.trim()==''){ toastr.error("La marca del Accesorio es invalida"); return;}
+            if (!/^([0-9])*$/.test(tipo) || tipo.trim()==''){ toastr.error("El tipo del Accesorio es invalido"); return;}
             $.ajax({
                 type:"POST",
                 url:"consultas.php",
@@ -170,7 +192,7 @@ $(document).ready(function () {
                     ubicacion:ubicacion,
                     marca:marca,
                     modelo:modelo,
-                    responsable:responsable,
+                    cpu:cpu,
                     estado:estado,
                     descri:descri
 
@@ -178,13 +200,20 @@ $(document).ready(function () {
                 },
                 success: function(data)
                 {
-					if(data=="bien"){
-                        toastr.success('Exito','se ha Guardado correctamnete');
-                        limpiarcampos();
-                    }
-                    if(data=="Error"){
-					    toastr.error("Error", "Ha ocurrido un Error"+data);
-                    }
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
+
+                        if (item=="bien"){
+
+                            toastr.success('Exito','se ha Guardado correctamnete');
+                            limpiarcampos();
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Ya Existe esa Ip');
+
+                        }
+
+                    });
 
                 },
                 error: function(xhr, ajaxOptions, thrownError)
@@ -217,17 +246,28 @@ $(document).ready(function () {
 </body>
 <?php
 function cargacombo($consul,$id,$nombre)
-
 {
-    include('../config/conexion.php');
-    $resul=mysqli_query($mysqli,$consul);
-    while ($row=mysqli_fetch_array($resul))
+    $mbd=DB::connect();DB::disconnect();
+    $proof=$mbd->query($consul);
+    while ($row = $proof->fetch(PDO::FETCH_ASSOC))
     {
         echo "<option value='".$row[$id]."'>";
 
         echo $row[$nombre];
         echo "</option>";
 
+    }
+}
+
+function cargaComboBox($consul,$id,$nombre, $apellido)
+{
+    $mbd=DB::connect();DB::disconnect();
+    $proof=$mbd->query($consul);
+    while ($row = $proof->fetch(PDO::FETCH_ASSOC))
+    {
+        echo "<option value='".$row["$id"]."'>";
+        echo $row["$nombre"]."  ".$row["$apellido"];
+        echo "</option>";
     }
 }
 ?>

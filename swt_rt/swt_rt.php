@@ -1,3 +1,4 @@
+<?php  include('../config/conexion2.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,18 +10,22 @@
     <link href="../plugins/select2/select2.min.css" rel="stylesheet">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
        <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-       <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
-       <script type="text/javascript" src="../js/toastr.js"></script>
-    <script src="../plugins/select2/select2.full.js" type="text/javascript"></script>
-    <script src="../plugins/select2/select2.js" type="text/javascript"></script>
+
 </head>
 <body class="login-page">
-<a  onclick="goBack()" class="btn bg-navy btn-flat btn-lg">   <span class="glyphicon glyphicon-list"></span>
-Ver Switch/Router</a>
-
    
    <div id="cuerpo" class="col-md-12" >
-
+       <section class="content-header">
+           <h1>
+               Switch/Router
+               <small>Añadir Switch/Router</small>
+           </h1>
+           <ol class="breadcrumb">
+               <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+               <li><a >Switch/Router</a></li>
+               <li class="active">Añadir Switch/Router</li>
+           </ol>
+       </section>
            <div class="col-md-12 " >
                <div class="box box-primary">
                    <div class="box-header with-border">
@@ -108,7 +113,7 @@ Ver Switch/Router</a>
                             <label for="ubicacion">Ubicacion</label>
                             <select id="ubicacion" class="form-control input-sm help-block">
 
-                                <?php cargacombo("SELECT * FROM edificio","id_edificio","nombre_edificio");?>
+                                <?php cargacombo("select * from departamento", "id_departamento", "nombre_dep");?>
 
                             </select>
                         </div>
@@ -127,13 +132,8 @@ Ver Switch/Router</a>
 
                         <div class="row col-md-12 col-lg-12">
                             <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                                <label for="clave">Responsable</label>
-
-                                <select id="responsable" class="js-example-basic-multiple select2 form-control help-block">
-
-                                    <?php cargacombo("SELECT id, concat(nombre,' ', apellido) AS nombre FROM empleados","id","nombre");?>
-
-                                </select>
+                                <label for="clave">Detalle Ubicacion</label>
+                                <input type="text" id="d_ubicacion" class="form-control input-sm help-block" placeholder="eje Rack de CNT...">
                             </div>
 
                             <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
@@ -143,21 +143,26 @@ Ver Switch/Router</a>
 
                         </div>
 
-                     <div class="form-group">
+                     <div class="form-group col-lg-12 col-md-12">
                          <label for="descripcion">Descripcion</label>
                          <textarea  class="form-control" id="descripcion" name="descripcion" placeholder="Describa el Equipo"></textarea>
                      </div>
 
                      <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                         <a  onclick="goBack()" class="btn bg-navy btn-flat btn-lg">   <span class="glyphicon glyphicon-list"></span>
+                             Ver Switch/Router</a>
                      </div>
                 </form>
+                   <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+                   <script type="text/javascript" src="../js/toastr.js"></script>
+                   <script src="../plugins/select2/select2.full.js" type="text/javascript"></script>
+                   <script src="../plugins/select2/select2.js" type="text/javascript"></script>
                    <script src="../plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
                 <script>
 $(document).ready(function () {
     $("#inventario").inputmask("99-999-9999");
-   $("#responsable").select2();
+   $("select").select2();
 
 
 });
@@ -169,6 +174,7 @@ $("#tipo").change(function() {
         $("#sfp").prop( "disabled", false );
     }if (this.value=="router"){
         $("#sfp").prop( "disabled", true );
+        $("#sfp").val("");
     }
 
 });
@@ -185,7 +191,7 @@ $("#tipo").change(function() {
     var ubicacion = $("#ubicacion").val();
     var marca = $("#marca").val();
     var modelo = $("#modelo").val();
-    var responsable = $("#responsable").val();
+    var d_ubicacion = $("#d_ubicacion").val();
     var estado = $("#estado").val();
     var ip = $("#ip").val();
     var pass = $("#pass").val();
@@ -193,8 +199,8 @@ $("#tipo").change(function() {
     var descri = $("#descripcion").val();
 
 
-    
-     
+
+            if(inventario.indexOf('_') != -1) {toastr.error("Numero de Inventario no valido"); return; }
   if( inventario.trim()=='')
             {
                toastr.error("Hay campos que son obligatorios");
@@ -218,7 +224,7 @@ $("#tipo").change(function() {
                     ubicacion:ubicacion,
                     marca:marca,
                     modelo:modelo,
-                    responsable:responsable,
+                    d_ubicacion:d_ubicacion,
                     estado:estado,
                     usuario:usuario,
                     pass:pass,
@@ -226,13 +232,20 @@ $("#tipo").change(function() {
                 },
                 success: function(data)
                 {
-					if(data=="bien"){
-                        toastr.success('Exito','se ha Guardado correctamnete');
-                        limpiarcampos();
-                    }
-                    if(data=="Error"){
-					    toastr.error("Error", "Ha ocurrido un Error"+data);
-                    }
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
+
+                        if (item=="bien"){
+
+                            toastr.success('Exito','se ha Guardado correctamnete');
+                            limpiarcampos();
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Ya Existe esa Ip');
+
+                        }
+
+                    });
 
                 },
                 error: function(xhr, ajaxOptions, thrownError)
@@ -261,11 +274,12 @@ $("#tipo").change(function() {
 function cargacombo($consul,$id,$nombre)
 
 {
-    include('../config/conexion.php');
-    $resul=mysqli_query($mysqli,$consul);
-    while ($row=mysqli_fetch_array($resul))
+
+    $mbd=DB::connect();DB::disconnect();
+    $proof=$mbd->query($consul);
+    while ($row = $proof->fetch(PDO::FETCH_ASSOC))
     {
-        echo "<option value='".$row[$id]."'>";
+        echo "<option value='".$row["$id"]."'>";
 
         echo $row[$nombre];
         echo "</option>";

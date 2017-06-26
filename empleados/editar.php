@@ -8,13 +8,9 @@
 		  $row["apellido"];
 		  $row["telefono"];
 		  $row["id"];
-		  //var_dump($row["nombre"]);
+		  $row["correo"];
+		  $row["id_departamento"];
 	  }
-       // $row=mysqli_fetch_array($d);
-//var_dump($row);
-//falta seleccionar el radio de sexo
-
-
 
 
 ?>
@@ -24,162 +20,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>empleados</title>
-      <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-     <link rel="stylesheet" href="../bootstrap/css/toastr.css">
-    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
-     
-       <script type="text/javascript" src="../js/toastr.js"></script>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../plugins/select2/select2.min.css">
+    <link rel="stylesheet" href="../css/toastr.css">
+    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
-<body>
-<a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
-Regresar</a>
-<div class="">  
-   <div id="menu" class="menu">
-       <?php
-       // include("../menu_prueba.html");
-        ?>
-   </div>
-   <div id="cuerpo" class="col-md-8" >
-       <header class="header">
-       <center><strong><h1>Actualizar empleado </h1></strong></center>
-       </header>
-      
-       
-           <div class="col-md-8 col-md-offset-3" >
-              <div class="box box-primary">
-                <div class="box-header with-border">
-                  <h2 class="box-title"></h2>
-                </div><!-- /.box-header -->
-                <!-- form start -->
-                <form >
-                 <div class="box-body">
-                  
-               
-                   <div class="form-group">
-                      
-                      <input value="<?php if (isset($row["id"])) echo $row["id"];?>"  type="hidden" class="form-control input-sm" id="id" name="id" >
-                    </div>
-                    
-                
-                    <div class="form-group">
-                      <label for="saldo">Nombre</label>
-                        <div class="input-group">
-                        <div class="input-group-addon">
-                        <i class="fa fa-user"></i>
-                        </div>
-                        <input value= "<?php echo $row["nombre"];?>" type="text" class="form-control input-lg" id="nombre" name="nombre" required placeholder="Nombre">
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                      <label for="puntos">Apellido</label>
-                        <div class="input-group">
-                        <div class="input-group-addon">
-                        <i class="fa fa-user"></i>
-                        </div>
-                        <input value= "<?php echo $row["apellido"];?>" type="text" class="form-control input-lg" id="apellido" name="apellido" required placeholder="Apellido">
-                        </div>
-                    </div>
-                     
-                     <div class="form-group">
-                      <label for="puntos">Apellido</label>
-                        <div class="input-group">
-                        <div class="input-group-addon">
-                        <i class="fa fa-user"></i>
-                        </div>
-                        <input value= "<?php echo $row["telefono"];?>" type="text" class="form-control input-lg" id="telefono" name="telefono"  placeholder="telefono">
-                        </div>
-                    </div>
-                    
-                   
-                     
-                  </div><!-- /.box-body -->
+<body class="login-page">
 
-                  <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar/Actualizar</button>
-                   
-                  </div>
-                </form>
-                <script> 
-                 
 
- 
- $("#guardar").click(function()
+
+
+<div class="col-md-8 col-md-offset-3" >
+    <section class="content-header">
+        <h1>
+            Empleados
+            <small>Editar Empleado</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a >Empleados</a></li>
+            <li class="active">Editar Empleado</li>
+        </ol>
+    </section>
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h2 class="box-title">Editar Empleado</h2>
+        </div><!-- /.box-header -->
+        <!-- form start -->
+
+        <div class="box-body">
+            <input type="hidden" id="id" value="<?php if(isset($row["id"])) echo $row["id"]; ?>">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <input type="text" class="form-control input-md" id="nombre" value="<?php if(isset($row["nombre"])) echo $row["nombre"]; ?>" name="nombre" required placeholder="Nombre">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <input type="text" class="form-control input-md" value="<?php if(isset($row["apellido"])) echo $row["apellido"]; ?>" id="apellido" name="apellido" required placeholder="Apellido">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Telefono</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-mobile"></i>
+                    </div>
+                    <input type="text" class="form-control input-md" value="<?php if(isset($row["telefono"])) echo $row["telefono"]; ?>" id="telefono" name="telefono"  placeholder="Telefono">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="correo">Correo</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <input type="text" class="form-control input-md" value="<?php if(isset($row["correo"])) echo $row["correo"]; ?>" id="correo"  placeholder="Correo">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="departamento">Departamento</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <select  id="departamento" class="form-control">
+                        <?php
+                        $mbd=DB::connect();DB::disconnect();
+                        $proof1=$mbd->query("SELECT id_departamento, nombre_dep FROM departamento");
+                        while($row1 = $row1 = $proof1->fetch(PDO::FETCH_ASSOC)){
+                            if($row1["id_departamento"] == $row["id_departamento"])
+                            { echo "<option selected value=".$row["id_departamento"].">".$row1["nombre_dep"]."</option>"; }
+                            else
+                            { echo "<option value=".$row1["id_departamento"].">".$row1["nombre_dep"]."</option>"; }
+                        }
+                        ?>
+                    </select>
+                     </div>
+            </div>
+
+
+        </div><!-- /.box-body -->
+
+        <div class="box-footer ">
+            <button type="button" id="guardar" class="btn   btn-primary btn-lg btn-flat">Guardar</button>
+            <a  onclick="goBack()" class="btn bg-navy btn-lg btn-flat">   <span class="glyphicon glyphicon-list"></span>
+                Ver Empleados</a>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
+<script type="text/javascript" href="../bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="../plugins/select2/select2.min.js"></script>
+<script type="text/javascript" src="../js/toastr.js"></script>
+<script>
+$(document).ready(function () {
+    $("select").select2();
+});
+
+    $("#guardar").click(function()
+    {
+        var telefono = $("#telefono").val();
+        var nombre = $("#nombre").val();
+        var apellido = $("#apellido").val();
+        var correo = $("#correo").val();
+        var id = $("#id").val();
+        var departamento = $("#departamento").val();
+
+        if( nombre.trim()=='' && apellido.trim()=='')
         {
- 
-    var identidad = $("#id").val();
-    var telefono = $("#telefono").val();
-   
-    var nombre = $("#nombre").val();
-    var apellido = $("#apellido").val();
-  
-   
-    // alert(identidad+" "+numempleado+" "+nombre+" "+apellido+" "+telefono+" "+correo+" "+area);    
-     
- 
-            
-            $.ajax({
-                type:"POST",
-                url:"consultas.php",
-                data:
+            toastr.error("Hay campos que son obligatorios");
+            return;
+        }
+        $.ajax({
+            type:"POST",
+            url:"consultas.php",
+            data:
                 {
                     tarea:"editar",
                     telefono:telefono,
-                 	nombre:nombre,
+                    nombre:nombre,
                     apellido: apellido,
-                    id: identidad
-                 
-                   
-                  
+                    correo: correo,
+                    id:id,
+                    departamento:departamento
+
                 },
-                success: function(data)
-                {
-                   alert(data);
-                     toastr.success('Exito','se ha actualizado correctamnete');
-                   // limpiarcampos();
-                   goBack();
-                   // setTimeout(function(){  goBack();  }, 3000);
-                    
-                    
-                    
-                },
-                error: function(xhr, ajaxOptions, thrownError)
-                {
-                    alert(thrownError);
-                    alert("No funciona ajax para guardar");
-                    toastr.error('Error','Ha ocurrido un error');
-                }
-            })    
-     
- });
-                    
+            success: function(data)
+            {
+                data=data.split("|");
+                $.each(data, function(i, item) {
+
+                    if (item=="bien"){
+
+                        toastr.success('Exito','se ha Guardado correctamnete');
+                        limpiarcampos();
+                        goBack();
+                    }
+                    if (item=="mal"){
+                        toastr.error('Error','Ya Existe esa Ip');
+
+                    }
+
+                });
+            },
+            error: function(xhr, ajaxOptions, thrownError)
+            {
+                alert(thrownError);
+                toast.error("No funciona ajax para guardar");
+            }
+        })
+    });
     function limpiarcampos(){
         document.getElementById("telefono").value="";
-        document.getElementById("id").value="";
-     
         document.getElementById("nombre").value="";
         document.getElementById("apellido").value="";
-    }
-  
-         function goBack(){
-             
-           
-             setTimeout(function(){  window.location.href="ver_empleados.php";  }, 30);
-             
-         }
+        document.getElementById("correo").value="";
 
-                            
-                              
-                    
-    </script>
-              </div>
-       </div>
-   </div>
-  
+    }
+    function goBack(){
+        setTimeout(function(){  window.location.href="ver_empleados.php";  }, 30);
+
+    }
+
+</script>
+
+
 
 </body>
-  
 
-    
+
 </html>

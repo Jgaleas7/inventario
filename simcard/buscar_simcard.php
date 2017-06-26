@@ -15,9 +15,7 @@
     <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
     <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
+
 
 </head>
 <body>
@@ -36,7 +34,7 @@
 
                 <tr>
                     <th class="hidden" data-field="Id">Id</th>
-                    <th data-field="nombre">Nombre</th>
+                    <th data-field="nombre">IMEI</th>
                     <th data-field="Cantidad">Numero</th>
                     <th data-field="fecha">Comapañia</th>
                     <th data-field="Fabricante">Conectividad</th>
@@ -49,7 +47,7 @@
 
                 $mbd=DB::connect();DB::disconnect();
                 // VERDADERA
-                $proof=$mbd->query("select * from simcard");
+                $proof=$mbd->query("SELECT * FROM simcard  WHERE simcard.id_sim NOT IN (SELECT id_sim FROM detalle_sim )");
 
 
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
@@ -57,7 +55,7 @@
                     
                     <tr>
                         <td class='hidden'>".$row["id_sim"]."</td>
-                        <td>".$row["nombre"]."</td>
+                        <td>".$row["imei"]."</td>
                         <td>".$row["numero"]."</td>
                         <td>".$row["compania"]."</td>
                         <td>".$row["conectividad"]."</td>
@@ -70,6 +68,9 @@
     </div>
 </div>
 </body>
+<script type="text/javascript" src="../js/bootbox.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
 <script>
     $(document).ready(function(){
 

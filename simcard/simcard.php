@@ -4,27 +4,22 @@
     <meta charset="UTF-8">
     <title>Sim Card</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
        <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
        <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
        <script type="text/javascript" src="../js/toastr.js"></script>
 </head>
-<body>
-<a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
-Regresar</a>
-<div class="">  
-   
-   <div id="cuerpo" class="col-md-8" >
-       <header class="header ">
-       <strong><h2 class="col-lg-offset-5">Añadir Sim Card</h2></strong>
-       </header>
-      
-       
-           <div class="col-md-11 col-md-offset-3" >
+<body class="login-page">
+
+
+   <div id="cuerpo" class="col-md-12" >
+
+           <div class="col-md-11 " >
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h2 class="box-title"></h2>
+                  <h2 class="box-title">Sim Card</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
@@ -36,10 +31,7 @@ Regresar</a>
                           <input type="text" class="form-control input-sm help-block" id="imei" name="nombre" placeholder="IMEI">
                       </div>
 
-                      <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
-                          <label for="nombre">Nombre</label>
-                          <input type="text" class="form-control input-sm  help-block" id="nombre" name="fabricante" placeholder="Nombre">
-                      </div>
+
 
                       <div class="form-group col-md-4 col-sm-4 col-xs-12 ">
                           <label for="usuario">Numero</label>
@@ -66,8 +58,9 @@ Regresar</a>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer col-lg-4 col-xs-12 col-md-6">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                      <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg">   <span class="fa fa-list"></span>
+                          Ver SIM</a>
                   </div>
                 </form>
                 
@@ -85,20 +78,14 @@ Regresar</a>
  
  $("#guardar").click(function()
         {
-    var nombre = $("#nombre").val();
+
     var imei= $("#imei").val();
     var numero= $("#numero").val();
     var compania= $("#compania").val();
     var conectividad= $("#conectividad").val();
 
-
-    
-     
-  if( numero.trim()=='')
-            {
-               toastr.error("El numero es obligatorio");
-                return;
-            }
+  if( numero.trim()=='')  { toastr.error("El numero es obligatorio"); return; }
+  if( imei.trim()=='') {toastr.error("El imei es obligatorio");return;}
             
             $.ajax({
                 type:"POST",
@@ -106,21 +93,27 @@ Regresar</a>
                 data:
                 {
                     tarea:"guardar",
-                    nombre:nombre,
                     imei:imei,
                     numero:numero,
                     compania:compania,
                     conectividad:conectividad
-
                 },
                 success: function(data)
                 {
-				if(data=="bien"){
-                    toastr.success('Exito','se ha Guardado correctamnete');
-                    limpiarcampos();
-                }else{
-				    toastr.error("ERROR", "Ha ocurrido un Error");
-                }
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
+
+                        if (item=="bien"){
+
+                            toastr.success('Exito','se ha Guardado correctamnete');
+                            limpiarcampos();
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Vuelva Intentar por Favor');
+
+                        }
+
+                    });
 
                 },
                 error: function(xhr, ajaxOptions, thrownError)
@@ -141,15 +134,10 @@ Regresar</a>
 
     }
 							         function goBack(){
-             
-           
-             setTimeout(function(){  window.location.href="ver_licencias.php";  }, 30);
-             
-         }
+             setTimeout(function(){  window.location.href="ver_simcard.php";  }, 30); }
                     
     </script>
-                
-                
+
               </div>
        </div>
    </div>

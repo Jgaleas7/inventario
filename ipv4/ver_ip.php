@@ -6,18 +6,11 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" >
      <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css" >
      <link rel="stylesheet" href="../css/toastr.css" >
 
     <!-- Optional theme -->
    <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
-    <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
 
 </head>
 <body>
@@ -26,26 +19,23 @@
 </nav>
 
 <div class="container-fluid">
-   <h2>MARCAS
-                        <a href="tipos_cliente.php" class="btn btn-success btn-md">
+   <h2>IP
+                        <a href="ipv4.php" class="btn btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
                         </a>
                     </h2>
+    <a href="ver_advance.php" class="btn btn-flat btn-primary btn-md">
+        <span class="glyphicon glyphicon-eye-open"></span>
+    </a>
     <div class="row">
         <div class="col-lg-11"> <!-- Note that "m8 l9" was added -->
             <table id="ver" class="display table " cellspacing="0" >
                 <thead>
                     
                     <tr>
-                        <th data-field="id">id</th>
-                        <th data-field="area">MARCA</th>
-                        <th data-field="descripcion">Descripcion</th>
+                        <th data-field="IP">IP</th>
                         <th data-field="descripcion">Editar</th>
-                        <th data-field="descripcion">Eliminar</th>
-                       
-                        
-                        
-                       
+
                     </tr>
                 </thead> 
                 <tbody>
@@ -54,26 +44,19 @@
                
               $mbd=DB::connect();DB::disconnect();
                 // VERDADERA
-             $proof=$mbd->query("select * from marca");
+             $proof=$mbd->query("select * from ipv4");
                                    
            		
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
                     echo "
                     
-                    <tr>
-                    
-                        <td>".$row["id_marca"]."</td>
-                        <td>".$row["nombre_marca"]."</td>
-                        <td>".$row["descri"]."</td>
-                       
-                        
+                    <tr>               
+                        <td>".$row["ip"]."</td>
                         
                         <td>
-                             <a href=\"editar.php?id=".$row["id_marca"]."\" class=\"btn btn-info btn-sm\">
+                             <a href=\"editar.php?id=".$row["id_ip"]."\" class=\"btn btn-flat btn-info btn-sm\">
                                     <span class=\"glyphicon glyphicon-pencil\"></span>Editar
-                              </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_marca"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
-                               </td>
+                              </a></td>
                             
                     </tr>";
                 }
@@ -84,6 +67,13 @@
     </div>
     </div>
 </body>
+<!-- Latest compiled and minified JavaScript -->
+<script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
+<script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
+
            <script>
     $(document).ready(function(){
         

@@ -4,26 +4,25 @@
     <meta charset="UTF-8">
     <title>T Video</title>
      <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
-    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet"> 
+    <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
        <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
        <script type="text/javascript" src="../js/toastr.js"></script>
 </head>
-<body>
+<body class="login-page">
 <a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
 Regresar</a>
 <div class="">  
    
    <div id="cuerpo" class="col-md-8" >
-       <header class="header">
-       <center><strong><h2>Tarjeta de Video</h2></strong></center>
-       </header>
+
       
        
            <div class="col-md-8 col-md-offset-3" >
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h2 class="box-title"></h2>
+                  <h2 class="box-title">Tarjeta de video</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
@@ -67,7 +66,7 @@ Regresar</a>
 
     
      
-  if( marca.trim()=='')
+  if( marca.trim()=='' || modelo.trim()=='')
             {
                toastr.error("Hay campos que son obligatorios");
                 return;

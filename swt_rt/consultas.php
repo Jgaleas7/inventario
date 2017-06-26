@@ -13,7 +13,7 @@
         		$ubicacion=$_POST["ubicacion"];
         		$marca=$_POST["marca"];
         		$modelo=$_POST["modelo"];
-                $responsable=$_POST["responsable"];
+                $d_ubicacion=$_POST["d_ubicacion"];
         		$estado=$_POST["estado"];
         		$descri=$_POST["descri"];
         		$ip=$_POST["ip"];
@@ -24,13 +24,14 @@
         		$pass=$_POST["pass"];
         		$sfp=$_POST["sfp"];
 
+
        if (!trim($inventario) == '') {
-           $proof=$mbd->query( "INSERT INTO swt_rt(num_inventario, nombre, marca, port_dispo, serial, modelo, ubicacion, ip, sfp, usuario, pass, red_fisica, tipo, estado, descripcion, responsable)
-        VALUES ('$inventario', '$nombre', '$marca', '$plibres', '$serie', '$modelo', '$ubicacion', '$ip', '$sfp', '$usuario', '$pass', '$red', '$tipo', '$estado', '$descri', '$responsable' )" );
+           $proof=$mbd->query( "INSERT INTO swt_rt(num_inventario, nombre, marca, port_dispo, serial, modelo, ubicacion, ip, sfp, usuario, pass, red_fisica, tipo, estado, descripcion, detalle_ubicacion)
+        VALUES ('$inventario', '$nombre', '$marca', '$plibres', '$serie', '$modelo', '$ubicacion', '$ip', '$sfp', '$usuario', '$pass', '$red', '$tipo', '$estado', '$descri', '$d_ubicacion' )" );
 
-           if($proof){ echo "bien"; }else{ echo "Error"; }
+           if($proof){ echo "|bien|"; }else{ echo "|mal|"; }
 
-             } else{ echo "Error";   }
+             } else{  echo "|mal|";  }
 
         break;
        
@@ -44,7 +45,7 @@
       $ubicacion=$_POST["ubicacion"];
       $marca=$_POST["marca"];
       $modelo=$_POST["modelo"];
-      $responsable=$_POST["responsable"];
+      $d_ubicacion=$_POST["d_ubicacion"];
       $estado=$_POST["estado"];
       $descri=$_POST["descri"];
       $ip=$_POST["ip"];
@@ -62,27 +63,13 @@
                               marca='$marca', port_dispo='$plibres', serial='$serie', modelo='$modelo',
                               ubicacion='$ubicacion', ip='$ip', sfp='$sfp', usuario='$usuario', pass='$pass',
                               red_fisica='$red', tipo='$tipo', estado='$estado',
-                              descripcion='$descri', responsable='$responsable' WHERE id_swt_rt='$id'");
-        if ($proof){ echo "bien"; } else{echo "error1";}
+                              descripcion='$descri', detalle_ubicacion='$d_ubicacion' WHERE id_swt_rt='$id'");
+        if ($proof){  echo "|bien|"; } else{ echo "|mal|";}
 
-			}else{ echo "Error"; }
+			}else{  echo "|mal|";}
             break;
 
-            case 'eliminar':
-			$mbd=DB::connect();DB::disconnect();
-		
-        $id=$_POST["id"];
-    
 
-            if (!trim($id) == '') {
-				
-           $proof=$mbd->query("DELETE FROM marca WHERE id_marca='$id'");
-          // $proof->execute();
-				echo $id;
-			}else{
-                echo "Error";
-            }
-    break;
         
     endswitch;
 ?>

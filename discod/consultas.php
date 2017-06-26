@@ -7,24 +7,20 @@
 
         case 'guardar':
                 $mbd=DB::connect();DB::disconnect();
-        		$marca=$_POST['marca'];
         		$obs=$_POST["obs"];
         		$almacenamiento=$_POST["almacenamiento"];
-        		$cant_raid=$_POST["cant_raid"];
+        		$cantidad=$_POST["cantidad"];
         		$tipo=$_POST["tipo"];
-        		$fecha=$_POST["fecha"];
 
       
-       if (!trim($marca) == '') {
-		  
+       if (!trim($almacenamiento) == '') {
 
-                      $proof=$mbd->query("INSERT INTO disco_duro(observacion, cant_ray, marca, tipo, almacenamiento, fecha_compra)
-                                           VALUES ('$obs', '$cant_raid', '$marca', '$tipo', '$almacenamiento', '$fecha')");
-                       echo "bien";
+           $proof=$mbd->query("INSERT INTO disco_duro( observacion, cantidad, tipo, almacenamiento)
+                                           VALUES ('$obs', '$cantidad',  '$tipo', '$almacenamiento')");
+           if ($proof){ echo "bien";     }
 
-             } else{
-                      echo "Error";
-                 }
+
+             } else{     echo "Error";   }
 
         break;
        

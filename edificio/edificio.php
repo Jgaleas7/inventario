@@ -4,29 +4,23 @@
     <meta charset="UTF-8">
     <title>Edificio</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="../css/toastr.css">
     <link href="../plugins/select2/select2.css" rel="stylesheet">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
-    <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
-    <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
-    <script src="../plugins/select2/select2.full.js" type="text/javascript"></script>
-    <script src="../plugins/select2/select2.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../js/toastr.js"></script>
+
 </head>
-<body>
-<a  onclick="goBack()" class="btn btn-warning btn-lg">   <span class="glyphicon glyphicon-circle-arrow-left"></span>
-    Regresar</a>
-<div class="">
+<body class="login-page">
+
+
 
     <div id="cuerpo" class="col-md-8" >
-        <header class="header">
-            <center><strong><h1>Edificio</h1></strong></center>
-        </header>
+
 
         <div class="col-md-8 col-md-offset-3" >
             <div class="box box-primary">
                 <div class="box-header with-border">
-                    <h2 class="box-title"></h2>
+                    <h2 class="box-title">Anadir Edificio</h2>
                 </div><!-- /.box-header -->
                 <!-- form start -->
                 <form role="form">
@@ -44,8 +38,9 @@
                     </div><!-- /.box-body -->
 
                     <div class="box-footer">
-                        <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                        <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                        <button type="button" id="guardar" class="btn btn-flat  btn-primary btn-lg">Guardar</button>
+                        <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg">   <span class="fa fa-list"></span>
+                            Ver Edificios</a>
                     </div>
                 </form>
 
@@ -58,6 +53,10 @@
 
 
 </body>
+<script type="text/javascript" src="../plugins/jQuery/jquery-3.1.1.js"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
+<script src="../plugins/select2/select2.js" type="text/javascript"></script>
+<script type="text/javascript" src="../js/toastr.js"></script>
 <script>
     $(document).ready(function () {
         $("#departamento").select2();
@@ -89,9 +88,21 @@
                 },
             success: function(data)
             {
-                alert(data);
-                toastr.success('Exito','se ha Guardado correctamnete');
-                limpiarcampos();
+                data=data.split("|");
+                $.each(data, function(i, item) {
+
+                    if (item=="bien"){
+
+                        toastr.success('Exito','se ha Guardado correctamnete');
+                        limpiarcampos();
+                    }
+                    if (item=="mal"){
+                        toastr.error('Error','Intente de nuevo');
+
+                    }
+
+                });
+
             },
             error: function(xhr, ajaxOptions, thrownError)
             {

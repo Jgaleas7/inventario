@@ -7,14 +7,25 @@
     <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css">
     <link href="../font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../plugins/select2/select2.min.css">
     <link href="../js/bootstrap-daterangepicker-master/daterangepicker.css" rel="stylesheet">
 </head>
 <body class="login-page">
-<a  onclick="goBack()" class="btn bg-navy btn-lg btn-flat">   <span class="glyphicon glyphicon-list"></span>
-Ver licencias</a>
 
    
    <div id="cuerpo" class="col-md-12" >
+       <section class="content-header">
+           <h1>
+               Licencia
+               <small>Añadir Licencia</small>
+           </h1>
+           <ol class="breadcrumb">
+               <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+               <li><a >Licencia</a></li>
+               <li class="active">Añadir Licencia</li>
+           </ol>
+       </section>
+
            <div class="col-md-12" >
               <div class="box box-primary">
                 <div class="box-header with-border">
@@ -25,7 +36,7 @@ Ver licencias</a>
                  <div class="box-body">
                   
                   <div class="row col-md-10 col-lg-12">
-                      <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                      <div class="form-group col-md-6 col-sm-6 col-xs-12">
                           <label for="nombre">Nombre Licencia*</label>
                           <input type="text" class="form-control input-sm help-block" id="nombre" name="nombre" placeholder="Nombre de la Licencia">
                       </div>
@@ -39,12 +50,12 @@ Ver licencias</a>
                             <div class="row col-md-10 col-lg-12">
 
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                                    <label for="usuario">Credenciales de acceso</label>
+                                    <label for="usuario">Credenciales de acceso web</label>
                                     <input type="text" class="form-control input-sm  help-block" id="usuario" name="usuario" placeholder="Usuario de la licencia">
                                 </div>
 
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
-                                    <label for="pass">Contraseña de acceso</label>
+                                    <label for="pass">Contraseña de acceso web</label>
                                     <input type="text" class="form-control input-sm  help-block" id="pass" name="pass" placeholder="password de la licencia">
                                 </div>
 
@@ -104,36 +115,52 @@ Ver licencias</a>
                             </div>
 
                         </div>
+                     <div class="row col-md-10 col-lg-12">
+                         <div class="form-group col-md-6 col-sm-6 col-xs-12 ">
+                             <label for="users">Usuarios de Licencia</label>
+                             <select id="users" class="form-control input-sm  help-block" multiple="multiple">
+                             <?php cargaComboBox("SELECT * FROM `empleados`","id","nombre","apellido") ?>
 
-                     <div class="form-groupcol-md-10 col-sm-10 col-xs-12">
+                             </select>
+                         </div>
+
+                     <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-12">
                          <label for="descripcion">Descripcion</label>
                          <textarea  class="form-control input-sm " id="descripcion" name="descripcion" placeholder="Descripcion de la Licencia"></textarea>
                      </div>
-                     
+
+
+                     </div>
                   </div><!-- /.box-body -->
 
                   <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat btn-primary btn-lg">Guardar</button>
+                      <a  onclick="goBack()" class="btn btn-flat bg-navy btn-lg btn-flat">   <span class="glyphicon glyphicon-list"></span>
+                          Ver licencias</a>
+
                   </div>
                 </form>
                   <script type="text/javascript" src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
                   <script type="text/javascript" src="../bootstrap/js/bootstrap.min.js"></script>
-                  <script type="text/javascript" src="../js/toastr.js"></script>
+                  <script type="text/javascript" src="../plugins/select2/select2.min.js"></script>
                   <script  src="../js/bootstrap-daterangepicker-master/moment.min.js"></script>
                   <script type="text/javascript" src="../js/bootstrap-daterangepicker-master/daterangepicker.js"></script>
+                  <script type="text/javascript" src="../js/toastr.js"></script>
+
+
                 <script>
                     $(document).ready(function () {
                         $("#fecha_vence").daterangepicker({
+
                             locale: {
-                                format: 'DD-MM-YYYY'
+                                format: 'DD-MM-YYYY',
                             },
                             singleDatePicker: true,
                             showDropdowns: true
                         });
                         toastr.options.newestOnTop = false;
                         toastr.options.progressBar = true;
-
+                        $("select").select2();
 
 
                     });
@@ -173,6 +200,7 @@ Ver licencias</a>
     var cantidad= $("#cantidad").val();
     var pag_web= $("#pag_web").val();
     var tipo_contrato= $("#tipo_contrato").val();
+    var users= $("#users").val();
 
     
      
@@ -202,14 +230,26 @@ Ver licencias</a>
                     pass:pass,
                     cant_lic:cantidad,
                     pag_web:pag_web,
-                    tipo_contrato:tipo_contrato
+                    tipo_contrato:tipo_contrato,
+                    users:users
 
                 },
                 success: function(data)
                 {
-					alert(data);
-                  toastr.success('Exito','se ha Guardado correctamnete');
-                    limpiarcampos();
+                    data=data.split("|");
+                    $.each(data, function(i, item) {
+
+                        if (item=="bien"){
+
+                            toastr.success('Exito','se ha Guardado correctamnete');
+                            limpiarcampos();
+                        }
+                        if (item=="mal"){
+                            toastr.error('Error','Ha ocurrido un error vuelva intentarlo');
+
+                        }
+
+                    });
                 },
                 error: function(xhr, ajaxOptions, thrownError)
                 {
@@ -245,4 +285,24 @@ Ver licencias</a>
   
 
 </body>
+<?php
+function cargaComboBox($consul, $id, $nombre, $apellido)
+{
+    include('../config/conexion2.php');
+
+    $mbd=DB::connect();DB::disconnect();
+    $proof=$mbd->query($consul);
+    while ($row = $proof->fetch(PDO::FETCH_ASSOC))
+    {
+        echo "<option value='".$row[$id]."'>";
+
+        echo $row[$nombre]." - ".$row[$apellido];
+        echo "</option>";
+
+    }
+
+}
+
+
+?>
 </html>

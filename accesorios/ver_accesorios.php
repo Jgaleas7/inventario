@@ -6,18 +6,12 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css" >
      <link rel="stylesheet" href="../plugins/datatables/jquery.dataTables.min.css" >
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
      <link rel="stylesheet" href="../css/toastr.css" >
 
     <!-- Optional theme -->
    <script src="../plugins/jQuery/jQuery-2.1.4.min.js" type="text/javascript"></script>
 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
-    <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.js" ></script>
-    <script type="text/javascript" src="../js/bootbox.min.js" ></script>
-    <script type="text/javascript" src="../js/toastr.js" ></script>
 
 </head>
 <body>
@@ -27,9 +21,10 @@
 
 <div class="container-fluid">
    <h2>Accesorios
-                        <a href="accesorios.php" class="btn btn-success btn-md">
+                        <a href="accesorios.php" class="btn btn-flat btn-success btn-md">
                             <span class="glyphicon glyphicon-plus"></span> Nuevo
-                        </a>
+                        </a> <a href="ver_advance.php" class="btn btn-flat btn-primary btn-md">
+                            <span class="glyphicon glyphicon-eye-open"></span></a>
                     </h2>
     <div class="row">
         <div class="col-lg-11"> <!-- Note that "m8 l9" was added -->
@@ -41,9 +36,9 @@
                         <th data-field="Tipo">Tipo</th>
                         <th data-field="Ubicacion">Ubicacion</th>
                         <th data-field="Marca">Marca</th>
-                        <th data-field="Responsable">Responsable</th>
-                        <th data-field="Editar">Editar</th>
-                        <th data-field="Eliminar">Eliminar</th>
+
+                        <th data-field="Acciones">Aciones</th>
+
 
                     </tr>
                 </thead> 
@@ -53,9 +48,9 @@
                
               $mbd=DB::connect();DB::disconnect();
                 // VERDADERA
-             $proof=$mbd->query("SELECT id_accesorio, num_inventario, ta.tipo_accesorio, edificio.nombre_edificio, empleados.apellido, marca.nombre_marca FROM 
-                                  accesorios acc INNER JOIN edificio ON ubicacion=edificio.id_edificio INNER JOIN tipo_accesorio ta ON acc.tipo=ta.id_taccesorio
-                                  INNER JOIN empleados ON responsable=empleados.id INNER JOIN marca ON acc.marca=marca.id_marca");
+             $proof=$mbd->query("SELECT id_accesorio, acc.num_inventario, ta.tipo_accesorio, departamento.nombre_dep, marca.nombre_marca FROM 
+                                  accesorios acc INNER JOIN departamento ON ubicacion=departamento.id_departamento INNER JOIN tipo_accesorio ta ON acc.tipo=ta.id_taccesorio
+                                   INNER JOIN marca ON acc.marca=marca.id_marca");
 
            		
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
@@ -65,15 +60,16 @@
                     
                         <td>".$row["num_inventario"]."</td>
                         <td>".$row["tipo_accesorio"]."</td>
-                        <td>".$row["nombre_edificio"]."</td>
+                        <td>".$row["nombre_dep"]."</td>
                         <td>".$row["nombre_marca"]."</td>
-                        <td>".$row["apellido"]."</td>
+                      
       
                         <td>
-                             <a href=\"editar.php?id=".$row["id_accesorio"]."\" class=\"btn btn-info btn-sm\">
-                                    <span class=\"glyphicon glyphicon-pencil\"></span>Editar
-                              </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_accesorio"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
+                             <a href=\"editar.php?id=".$row["id_accesorio"]."\" class=\"btn btn-flat btn-info btn-sm\">
+                                    <span class=\"glyphicon glyphicon-pencil\"></span>
+                              </a>
+							     <a id=\"eliminar\" value=\"".$row["id_accesorio"]."\" class=\"btn btn-flat btn-sm btn-danger\"  >
+							     										<span class=\"glyphicon glyphicon-trash\"></span></a>
                                </td>
                             
                     </tr>";
@@ -85,6 +81,14 @@
     </div>
     </div>
 </body>
+<!-- Latest compiled and minified JavaScript -->
+<script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
+<script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
+<script type="text/javascript" src="../js/bootbox.js" ></script>
+<script type="text/javascript" src="../js/bootbox.min.js" ></script>
+<script type="text/javascript" src="../js/toastr.js" ></script>
+
            <script>
     $(document).ready(function(){
         

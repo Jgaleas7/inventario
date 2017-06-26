@@ -35,10 +35,9 @@
                         <th data-field="Inventario">Inventario</th>
                         <th data-field="Nombre">Nombre</th>
                         <th data-field="Red">Red</th>
-
                         <th data-field="Tipo">Tipo</th>
-                        <th data-field="Editar">Editar</th>
-                        <th data-field="Eliminar">Eliminar</th>
+                        <th data-field="Ubicacion">Ubicacion</th>
+                        <th data-field="Acciones">Acciones</th>
                     </tr>
                 </thead> 
                 <tbody>
@@ -47,7 +46,7 @@
                
               $mbd=DB::connect();DB::disconnect();
                 // VERDADERA
-             $proof=$mbd->query("select * from swt_rt");
+             $proof=$mbd->query("SELECT swt_rt.*, nombre_dep  FROM swt_rt INNER JOIN departamento ON swt_rt.ubicacion=id_departamento");
                                    
            		
                 while($row = $row = $proof->fetch(PDO::FETCH_ASSOC)){
@@ -58,11 +57,13 @@
                         <td>".$row["nombre"]."</td>
                         <td>".$row["red_fisica"]."</td>
                         <td>".$row["tipo"]."</td>                       
+                        <td>".$row["nombre_dep"]."</td>                       
                         <td>
                              <a href=\"editar.php?id=".$row["id_swt_rt"]."\" class=\"btn btn-info btn-sm\">
-                                    <span class=\"glyphicon glyphicon-pencil\"></span>Editar
-                              </a></td><td>
-							     <a id=\"eliminar\" value=\"".$row["id_swt_rt"]."\" class=\"btn btn_5 btn-sm btn-danger\"  >Eliminar 											</a>
+                                    <span class=\"glyphicon glyphicon-pencil\"></span>
+                              </a>
+							     <a   class=\"btn btn_5 btn-sm btn-danger\"  ><span class=\"glyphicon glyphicon-trash\"></span>
+							     	</a>
                                </td>
                             
                     </tr>";
@@ -78,49 +79,13 @@
 <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
 <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-<script type="text/javascript" src="../js/bootbox.js" ></script>
+
 <script type="text/javascript" src="../js/bootbox.min.js" ></script>
 <script type="text/javascript" src="../js/toastr.js" ></script>
            <script>
     $(document).ready(function(){
-        
                 $('#ver').DataTable();
-		$(".btn-danger").click(function(){
-			
-		        	var id=$(this).attr('value');
-			
-                bootbox.confirm("seguro que lo quiere eliminar?", function(result) {
-	             if(result==true){
-		                     eliminar(id);
-	                     }
-
-});   });
-        
     });
-			   
-
-    function eliminar (id){
-
-
-        $.ajax(//funcion ajax le mando la tarea al switch y creo new variables que tienen el valor del form
-            {
-                type: "POST",
-                url: "consultas.php",
-                data: {
-                    tarea: 'eliminar',
-                    id: id
-                   
-                },
-                success: function (data){
-
-                    //alert(data);
-					  location.reload();
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert(thrownError);
-                }
-            });
-    }
 
     
     

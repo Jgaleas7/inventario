@@ -12,18 +12,20 @@
         $telefono=$_POST['telefono'];
         $nombre=$_POST["nombre"];
         $apellido=$_POST["apellido"];
-      
+        $correo=$_POST["correo"];
+        $departamento=$_POST["departamento"];
+
       
        if (!trim($nombre) == '') {
 		  
 
-      $proof=$mbd->query("INSERT INTO empleados(nombre, apellido, telefono, id_ciudad, id_departamento)
-        VALUES ( '$nombre', '$apellido',  '$telefono', '1','1')");
-       
-      // $proof->execute();
-       } else{
-                echo "Error";
-            }
+      $proof=$mbd->query("INSERT INTO empleados(nombre, apellido, telefono, correo, id_departamento)
+        VALUES ( '$nombre', '$apellido',  '$telefono', '$correo','$departamento')");
+
+      if ($proof){
+          echo "|bien|";
+      }else{ echo "|mal|"; }
+       } else{ echo "|mal|"; }
       
         break; //aqui termina la opcion insertar en preveedores
        
@@ -33,18 +35,19 @@
 		$telefono=$_POST['telefono'];
         $nombre=$_POST["nombre"];
         $apellido=$_POST["apellido"];
+        $correo=$_POST["correo"];
         $id=$_POST["id"];
-
+      $departamento=$_POST["departamento"];
    
 
             if (!trim($nombre) == '') {
 				
            $proof=$mbd->query("UPDATE empleados SET 
-		   nombre='$nombre',apellido='$apellido',  telefono='$telefono' WHERE id='$id'");
-           //$proof->execute();
-			}else{
-                echo "Error hay campos obligattorios";
-            }
+		   nombre='$nombre',apellido='$apellido',  telefono='$telefono', correo='$correo', id_departamento='$departamento' WHERE id='$id'");
+
+           if ($proof){ echo "|bien|"; }
+           else{ echo "|mal|";}
+            }else{ echo "|mal|"; }
     break;
         
     endswitch;

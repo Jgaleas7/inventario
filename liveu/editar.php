@@ -36,8 +36,7 @@ $mbd=DB::connect();DB::disconnect();
 
 </head>
 <body class="login-page">
-<a  onclick="goBack()" class="btn bg-navy btn-flat btn-lg">   <span class="glyphicon glyphicon-list"></span>
-    Ver Live U</a>
+
 <div class="modal fade" id="multiModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" >
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -49,8 +48,8 @@ $mbd=DB::connect();DB::disconnect();
                 <iframe id="multiframe" height="500" width="530" src="../simcard/buscar_simcard.php"  frameborder="0" ></iframe>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="button" id="addbtn" data-dismiss="modal" class="btn btn-primary">Confirmar</button>
+                <button type="button" class="btn btn-flat btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="addbtn" data-dismiss="modal" class="btn btn-flat btn-success">Confirmar</button>
             </div>
         </div>
     </div>
@@ -58,7 +57,17 @@ $mbd=DB::connect();DB::disconnect();
 
 
 <div id="cuerpo" class="col-md-12" >
-
+    <section class="content-header">
+        <h1>
+            LiveU
+            <small>Editar LiveU</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a ><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a >CPU</a></li>
+            <li class="active">Editar LiveU</li>
+        </ol>
+    </section>
     <div class="col-md-12" >
         <div class="box box-primary">
             <div class="box-header with-border">
@@ -134,17 +143,13 @@ $mbd=DB::connect();DB::disconnect();
                     </div>
 
                     <div class="row col-md-12 col-xs-12 col-lg-12">
-                        <!--
-                                                    <div class="form-group col-md-4 col-sm-6 col-xs-12 ">
-                                                        <label for="asociado">Asociado A</label>
-                                                        <input type="text" class="form-control input-sm  help-block" id="asociado" name="page" placeholder="Asociado A">
-                                                    </div>-->
+
                         <div class="form-group col-md-4 col-sm-6 col-xs-12">
                             <label for="descripcion">Descripcion</label>
                             <textarea  class="form-control input-sm " id="descripcion" placeholder="Descripcion"><?php if (isset($row["descripcion"])) echo $row["descripcion"];?></textarea>
                         </div>
                     </div>
-                    <a id="openmodal" data-toggle="modal" data-target="#multiModal"  class="btn btn-success fa fa-search"> Listar Sim</a>
+                    <a id="openmodal" data-toggle="modal" data-target="#multiModal"  class="btn btn-flat btn-success fa fa-search"> Listar Sim</a>
                     <hr>
                     <table id="sim" class="display table " >
                         <thead>
@@ -161,18 +166,18 @@ $mbd=DB::connect();DB::disconnect();
                         if ($conteo){
 
                             if ($conteo->fetchColumn()>0){
-                           $sim=$mbd->query("SELECT dt.id_sim, s.imei, s.numero,s.compania, s.nombre FROM detalle_sim dt 
+                           $sim=$mbd->query("SELECT dt.id_sim, s.imei, s.numero,s.compania  FROM detalle_sim dt 
                                              INNER JOIN simcard s ON dt.id_sim=s.id_sim  WHERE dt.num_inventario='$inv'");
                                 while($fila = $fila=$sim->fetch(PDO::FETCH_ASSOC)){
                                     echo "                  
                     <tr>
                         <td >".$fila["id_sim"]."</td>
-                        <td>".$fila["nombre"]."</td>
+                        <td>".$fila["imei"]."</td>
                         <td>".$fila["numero"]."</td>                  
                         <td>".$fila["compania"]."</td>                  
                         
                             <td>
-							   <a id=\"eliminar\" value=\"".$fila["id_sim"]."\" class=\"btn btn-sm btn-danger fa fa-trash-o\">
+							   <a class=\"btn btn-flat btn-sm btn-danger fa fa-trash-o\">
 							   Eliminar</a>
                             </td>                           
                     </tr>";
@@ -191,8 +196,9 @@ $mbd=DB::connect();DB::disconnect();
                 </div><!-- /.box-body -->
 
                 <div class="box-footer">
-                    <button type="button" id="guardar" class="btn  btn-primary btn-lg">Guardar</button>
-                    <button type="reset" class="btn  btn-danger btn-lg">Cancelar</button>
+                    <button type="button" id="guardar" class="btn btn-flat btn-primary btn-lg">Guardar</button>
+                    <a  onclick="goBack()" class="btn  bg-navy btn-flat btn-lg">   <span class="glyphicon glyphicon-list"></span>
+                        Ver Live U</a>
                 </div>
 
 
@@ -201,7 +207,6 @@ $mbd=DB::connect();DB::disconnect();
             <script src="../bootstrap/js/bootstrap.min.js" crossorigin="anonymous"></script>
             <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js" ></script>
             <script type="text/javascript" src="../plugins/datatables/tabla.min.js" ></script>
-            <script type="text/javascript" src="../js/bootbox.js" ></script>
             <script type="text/javascript" src="../js/bootbox.min.js" ></script>
             <script type="text/javascript" src="../js/toastr.js" ></script>
             <script src="../plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
@@ -224,11 +229,11 @@ $mbd=DB::connect();DB::disconnect();
 
                 });
 
-                $("#cantidad").keyup(function() {
+                $("#modem").keyup(function() {
                     this.value = (this.value + '').replace(/[^0-9]/g, '');
 
                 });
-                $("#cantidad").focusout(function() {
+                $("#modem").focusout(function() {
                     this.value = (this.value + '').replace(/[^0-9]/g, '');
 
                 });
@@ -252,9 +257,14 @@ $mbd=DB::connect();DB::disconnect();
 
                 $("#sim tbody").on('click', '.btn-danger', function () {
 
+
                     var tablesim=$("#sim").DataTable();
-                    //console.log(tablesim.row( this ).data());
-                    tablesim.row($(this).parents('tr')).remove().draw( false );
+                    var borrar = confirm("Desea eliminar este SIM");
+
+                    if (borrar==true){
+                        tablesim.row($(this).parents('tr')).remove().draw( false );
+                        console.log(borrar);
+                    }
 
                 });
 
@@ -277,7 +287,7 @@ $mbd=DB::connect();DB::disconnect();
                     var table = $('#sim').DataTable();
                     var data = table.column( 0 ).data();
                     var sim= data.toArray();
-
+                    if(inventario.indexOf('_') != -1) {toastr.error("Numero de Inventario no valido"); return; }
                     if( nombre.trim()=='' && inventario.trim()=='')
                     {
                         toastr.error("Hay campos que son obligatorios");
@@ -305,9 +315,21 @@ $mbd=DB::connect();DB::disconnect();
                             },
                         success: function(data)
                         {
-                            alert(data);
-                            toastr.success('Exito','se ha Guardado correctamnete');
-                            limpiarcampos();
+                            data=data.split("|");
+                            $.each(data, function(i, item) {
+
+                                if (item=="bien"){
+
+                                    toastr.success('Exito','se ha Guardado correctamnete');
+                                    limpiarcampos();
+                                    goBack();
+                                }
+                                if (item=="mal"){
+                                    toastr.error('Error','Ha ocurrido un error Vuelva intentar');
+
+                                }
+
+                            });
                         },
                         error: function(xhr, ajaxOptions, thrownError)
                         {
